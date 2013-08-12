@@ -28,7 +28,7 @@ void pomodoro_init(Pomodoro* pomodoro) {
 }
 
 void pomodoro_decrement_by_seconds(Pomodoro* pomodoro, unsigned int seconds) {
-  if (pomodoro->total_seconds_left - seconds > 0) {
+  if ((int) pomodoro->total_seconds_left - (int) seconds > 0) {
     pomodoro->total_seconds_left -= seconds;
   } else {
     pomodoro->total_seconds_left = 0;
