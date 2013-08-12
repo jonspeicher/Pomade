@@ -15,22 +15,22 @@ PBL_APP_INFO(MY_UUID,
 Window window;
 TextLayer timerLayer;
 
-AppTimerHandle timer_handle;
-#define COOKIE_MY_TIMER 1
-#define POMODORO_TIMER_TICK_INTERVAL_MS 1000
-#define POMODORO_TIMER_TICK_INTERVAL_SEC POMODORO_TIMER_TICK_INTERVAL_MS / 1000
+AppTimerHandle timer;
+#define POMODORO_COOKIE 1
+#define POMODORO_TICK_PERIOD_MS 1000
+#define POMODORO_TICK_PERIOD_SEC POMODORO_TICK_PERIOD_MS / 1000
 
 static Pomodoro pomodoro;
 
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
-  if (cookie == COOKIE_MY_TIMER) {
-    pomodoro_decrement_by_seconds(&pomodoro, POMODORO_TIMER_TICK_INTERVAL_SEC);
+  if (cookie == POMODORO_COOKIE) {
+    pomodoro_decrement_by_seconds(&pomodoro, POMODORO_TICK_PERIOD_SEC);
     text_layer_set_text(&timerLayer, pomodoro.time_left_string);
 
     if (pomodoro.complete) {
       vibes_long_pulse();
     } else {
-      app_timer_send_event(ctx, 1000, COOKIE_MY_TIMER);
+      app_timer_send_event(ctx, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
     }
   }
 }
@@ -45,7 +45,7 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text(&timerLayer, pomodoro.time_left_string);
   layer_add_child(&window.layer, &timerLayer.layer);
 
-  timer_handle = app_timer_send_event(ctx, 1000 /* milliseconds */, COOKIE_MY_TIMER);
+  timer = app_timer_send_event(ctx, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
 }
 
 void pbl_main(void *params) {
