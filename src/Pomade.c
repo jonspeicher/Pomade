@@ -11,15 +11,36 @@ PBL_APP_INFO(MY_UUID,
              APP_INFO_STANDARD_APP);
 
 Window window;
+TextLayer timerLayer;
+
+AppTimerHandle timer_handle;
+#define COOKIE_MY_TIMER 1
+
+void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
+
+  if (cookie == COOKIE_MY_TIMER) {
+      text_layer_set_text(&timerLayer, "Timer happened!");
+  }
+
+  // If you want the timer to run again you need to call `app_timer_send_event()`
+  // again here.
+}
 
 void handle_init(AppContextRef ctx) {
   window_init(&window, "Pomade");
   window_stack_push(&window, true /* Animated */);
+
+  text_layer_init(&timerLayer, window.layer.frame);
+  text_layer_set_text(&timerLayer, "Waiting for timer...");
+  layer_add_child(&window.layer, &timerLayer.layer);
+
+  timer_handle = app_timer_send_event(ctx, 1500 /* milliseconds */, COOKIE_MY_TIMER);
 }
 
 void pbl_main(void *params) {
   PebbleAppHandlers handlers = {
-    .init_handler = &handle_init
+    .init_handler = &handle_init,
+    .timer_handler = &handle_timer
   };
   app_event_loop(params, &handlers);
 }
