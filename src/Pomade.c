@@ -42,6 +42,8 @@ void handle_init(AppContextRef ctx) {
   window_stack_push(&window, true /* Animated */);
 
   text_layer_init(&timerLayer, window.layer.frame);
+  text_layer_set_text_alignment(&timerLayer, GTextAlignmentCenter);
+  text_layer_set_font(&timerLayer, fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT ));
   text_layer_set_text(&timerLayer, pomodoro.time_left_string);
   layer_add_child(&window.layer, &timerLayer.layer);
 
