@@ -6,8 +6,8 @@
 
 #pragma once
 
-// Defines the number of characters in a pomodoro time left display string. Note
-// that this does not account for the terminating NULL character.
+// Defines the number of characters in a pomodoro time left display string.
+// Note that this does not account for the terminating NULL character.
 
 #define POMODORO_TIME_LEFT_STRING_NUM_CHARS 5
 
