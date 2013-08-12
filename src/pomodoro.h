@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <stdbool.h>
+
 // Defines the number of characters in a pomodoro time left display string.
 // Note that this does not account for the terminating NULL character.
 
@@ -15,6 +17,7 @@
 // associated display strings.
 
 typedef struct {
+  bool complete;
   unsigned int total_seconds_left;
   unsigned int minutes_left;
   unsigned int seconds_left;

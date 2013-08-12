@@ -4,6 +4,7 @@
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
 
+#include <stdbool.h>
 #include <stdio.h>
 #include "pomodoro.h"
 
@@ -23,6 +24,7 @@ static void update_fields(Pomodoro* pomodoro);
 // Public functions -----------------------------------------------------------
 
 void pomodoro_init(Pomodoro* pomodoro) {
+  pomodoro->complete = false;
   pomodoro->total_seconds_left = POMODORO_INITIAL_TIME_SEC;
   update_fields(pomodoro);
 }
@@ -39,6 +41,9 @@ void pomodoro_decrement_by_seconds(Pomodoro* pomodoro, unsigned int seconds) {
 // Private functions ----------------------------------------------------------
 
 void update_fields(Pomodoro* pomodoro) {
+  if (pomodoro->total_seconds_left == 0) {
+    pomodoro->complete = true;
+  }
   pomodoro->minutes_left = pomodoro->total_seconds_left / 60;
   pomodoro->seconds_left = pomodoro->total_seconds_left % 60;
   snprintf(pomodoro->time_left_string, POMODORO_TIME_LEFT_STRING_NUM_CHARS + 1,

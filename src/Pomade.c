@@ -26,8 +26,13 @@ void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
   if (cookie == COOKIE_MY_TIMER) {
     pomodoro_decrement_by_seconds(&pomodoro, POMODORO_TIMER_TICK_INTERVAL_SEC);
     text_layer_set_text(&timerLayer, pomodoro.time_left_string);
+
+    if (pomodoro.complete) {
+      vibes_long_pulse();
+    } else {
+      app_timer_send_event(ctx, 1000, COOKIE_MY_TIMER);
+    }
   }
-  app_timer_send_event(ctx, 1000, COOKIE_MY_TIMER);
 }
 
 void handle_init(AppContextRef ctx) {
