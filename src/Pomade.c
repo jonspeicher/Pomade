@@ -1,6 +1,8 @@
-#include "pebble_os.h"
-#include "pebble_app.h"
-#include "pebble_fonts.h"
+#include <pebble_os.h>
+#include <pebble_app.h>
+#include <pebble_fonts.h>
+
+#include "pomodoro.h"
 
 #define MY_UUID { 0x78, 0x1D, 0x21, 0x66, 0x09, 0x09, 0x4F, 0x9C, 0x88, 0xFD, 0x89, 0x9B, 0x04, 0xBF, 0x5E, 0x32 }
 
@@ -13,29 +15,29 @@ PBL_APP_INFO(MY_UUID,
 Window window;
 TextLayer timerLayer;
 
-uint16_t secondsRemaining = 25 * 60;
-char timerLabel[6] = "";
 AppTimerHandle timer_handle;
 #define COOKIE_MY_TIMER 1
+#define POMODORO_TIMER_TICK_INTERVAL_MS 1000
+#define POMODORO_TIMER_TICK_INTERVAL_SEC POMODORO_TIMER_TICK_INTERVAL_MS / 1000
+
+static Pomodoro pomodoro;
 
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
-
   if (cookie == COOKIE_MY_TIMER) {
-      if (--secondsRemaining > 0) {
-        snprintf(timerLabel, 6, "%d:%02d", secondsRemaining / 60, secondsRemaining % 60);
-        text_layer_set_text(&timerLayer, timerLabel);
-      }
+    pomodoro_decrement_by_seconds(&pomodoro, POMODORO_TIMER_TICK_INTERVAL_SEC);
+    text_layer_set_text(&timerLayer, pomodoro.time_left_string);
   }
-
   app_timer_send_event(ctx, 1000, COOKIE_MY_TIMER);
 }
 
 void handle_init(AppContextRef ctx) {
+  pomodoro_init(&pomodoro);
+
   window_init(&window, "Pomade");
   window_stack_push(&window, true /* Animated */);
 
   text_layer_init(&timerLayer, window.layer.frame);
-  text_layer_set_text(&timerLayer, "Waiting for timer...");
+  text_layer_set_text(&timerLayer, pomodoro.time_left_string);
   layer_add_child(&window.layer, &timerLayer.layer);
 
   timer_handle = app_timer_send_event(ctx, 1000 /* milliseconds */, COOKIE_MY_TIMER);
