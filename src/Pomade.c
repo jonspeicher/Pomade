@@ -13,17 +13,21 @@ PBL_APP_INFO(MY_UUID,
 Window window;
 TextLayer timerLayer;
 
+uint16_t secondsRemaining = 25 * 60;
+char timerLabel[6] = "";
 AppTimerHandle timer_handle;
 #define COOKIE_MY_TIMER 1
 
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
 
   if (cookie == COOKIE_MY_TIMER) {
-      text_layer_set_text(&timerLayer, "Timer happened!");
+      if (--secondsRemaining > 0) {
+        snprintf(timerLabel, 6, "%d:%02d", secondsRemaining / 60, secondsRemaining % 60);
+        text_layer_set_text(&timerLayer, timerLabel);
+      }
   }
 
-  // If you want the timer to run again you need to call `app_timer_send_event()`
-  // again here.
+  app_timer_send_event(ctx, 1000, COOKIE_MY_TIMER);
 }
 
 void handle_init(AppContextRef ctx) {
@@ -34,7 +38,7 @@ void handle_init(AppContextRef ctx) {
   text_layer_set_text(&timerLayer, "Waiting for timer...");
   layer_add_child(&window.layer, &timerLayer.layer);
 
-  timer_handle = app_timer_send_event(ctx, 1500 /* milliseconds */, COOKIE_MY_TIMER);
+  timer_handle = app_timer_send_event(ctx, 1000 /* milliseconds */, COOKIE_MY_TIMER);
 }
 
 void pbl_main(void *params) {
