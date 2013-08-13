@@ -16,7 +16,9 @@ Window window;
 TextLayer timer_layer;
 ActionBarLayer action_bar;
 
+AppContextRef application_context;
 AppTimerHandle timer;
+
 #define POMODORO_COOKIE 1
 #define POMODORO_TICK_PERIOD_MS 1000
 #define POMODORO_TICK_PERIOD_SEC POMODORO_TICK_PERIOD_MS / 1000
@@ -29,6 +31,14 @@ void window_load(Window* window) {
 
 void window_unload(Window* window) {
   action_bar_layer_remove_from_window(&action_bar);
+}
+
+void select_clicked(ClickRecognizerRef recognizer, void* context) {
+  timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
+}
+
+void click_config_provider(ClickConfig **config, void* context) {
+  config[BUTTON_ID_SELECT]->click.handler = select_clicked;
 }
 
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
@@ -45,6 +55,7 @@ void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
 }
 
 void handle_init(AppContextRef ctx) {
+  application_context = ctx;
   pomodoro_init(&pomodoro);
 
   window_init(&window, "Pomade");
@@ -54,6 +65,7 @@ void handle_init(AppContextRef ctx) {
   });
 
   action_bar_layer_init(&action_bar);
+  action_bar_layer_set_click_config_provider(&action_bar, click_config_provider);
 
   text_layer_init(&timer_layer, window.layer.frame);
   text_layer_set_text_alignment(&timer_layer, GTextAlignmentCenter);
@@ -62,7 +74,6 @@ void handle_init(AppContextRef ctx) {
   layer_add_child(&window.layer, &timer_layer.layer);
 
   window_stack_push(&window, true /* Animated */);
-  timer = app_timer_send_event(ctx, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
 }
 
 void pbl_main(void *params) {
