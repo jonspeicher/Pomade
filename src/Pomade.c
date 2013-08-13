@@ -45,6 +45,7 @@ void select_clicked(ClickRecognizerRef recognizer, void* context) {
     vibes_double_pulse();
   } else {
     timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
+    pomodoro_init(&pomodoro);
     pomodoro_start(&pomodoro);
   }
 }
