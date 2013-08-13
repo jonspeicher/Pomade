@@ -1,3 +1,8 @@
+// TBD: app is the controller, owns timer and click handlers (which are registered
+// via the view), view is the window/layer/etc, model is pomodoro
+// controller makes decisions based on model and input coming called back from
+// the view, then updates the model and updates the view with the model
+
 #include <pebble_os.h>
 #include <pebble_app.h>
 #include <pebble_fonts.h>
