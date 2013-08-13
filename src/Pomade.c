@@ -81,7 +81,8 @@ void handle_init(AppContextRef ctx) {
   action_bar_layer_init(&action_bar);
   action_bar_layer_set_click_config_provider(&action_bar, click_config_provider);
 
-  text_layer_init(&timer_layer, window.layer.frame);
+  text_layer_init(&timer_layer,
+    GRect(0, 10, window.layer.frame.size.w - ACTION_BAR_WIDTH, window.layer.frame.size.h));
   text_layer_set_text_alignment(&timer_layer, GTextAlignmentCenter);
   text_layer_set_font(&timer_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
   text_layer_set_text(&timer_layer, pomodoro.time_left_string);
