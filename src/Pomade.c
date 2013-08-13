@@ -14,7 +14,7 @@
 PBL_APP_INFO(MY_UUID,
              "Pomade", "Jon Speicher",
              0, 1, /* App version */
-             RESOURCE_ID_POMADE_MENU_ICON,
+             RESOURCE_ID_MENU_ICON_POMADE,
              APP_INFO_STANDARD_APP);
 
 Window window;

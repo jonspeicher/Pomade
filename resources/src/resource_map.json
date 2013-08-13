@@ -3,9 +3,9 @@
   "versionDefName": "APP_RESOURCES",
   "media": [
     {
-      "defName": "POMADE_MENU_ICON",
+      "defName": "MENU_ICON_POMADE",
       "type": "png",
-      "file": "images/menu_icon.png"
+      "file": "images/menu_icon_pomade.png"
     },
     {
       "defName": "ACTION_BAR_ICON_START",
