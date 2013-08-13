@@ -17,6 +17,7 @@
 // associated display strings.
 
 typedef struct {
+  bool running;
   bool complete;
   unsigned int total_seconds_left;
   unsigned int minutes_left;
@@ -28,6 +29,14 @@ typedef struct {
 // display string appropriately.
 
 void pomodoro_init(Pomodoro* pomodoro);
+
+// Starts a pomodoro.
+
+void pomodoro_start(Pomodoro* pomodoro);
+
+// Aborts a pomodoro.
+
+void pomodoro_abort(Pomodoro* pomodoro);
 
 // Decrements the time remaining in the pomodoro by the number of seconds
 // specified. If the requested decrement is greater than the number of seconds

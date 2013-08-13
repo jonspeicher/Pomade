@@ -39,7 +39,14 @@ void window_unload(Window* window) {
 }
 
 void select_clicked(ClickRecognizerRef recognizer, void* context) {
-  timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
+  if (pomodoro.running) {
+    app_timer_cancel_event(application_context, timer);
+    pomodoro_abort(&pomodoro);
+    vibes_double_pulse();
+  } else {
+    timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
+    pomodoro_start(&pomodoro);
+  }
 }
 
 void click_config_provider(ClickConfig **config, void* context) {
@@ -54,7 +61,7 @@ void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
     if (pomodoro.complete) {
       vibes_long_pulse();
     } else {
-      app_timer_send_event(ctx, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
+      timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
     }
   }
 }

@@ -24,9 +24,18 @@ static void update_fields(Pomodoro* pomodoro);
 // Public functions -----------------------------------------------------------
 
 void pomodoro_init(Pomodoro* pomodoro) {
+  pomodoro->running = false;
   pomodoro->complete = false;
   pomodoro->total_seconds_left = POMODORO_INITIAL_TIME_SEC;
   update_fields(pomodoro);
+}
+
+void pomodoro_start(Pomodoro* pomodoro) {
+  pomodoro->running = true;
+}
+
+void pomodoro_abort(Pomodoro* pomodoro) {
+  pomodoro->running = false;
 }
 
 void pomodoro_decrement_by_seconds(Pomodoro* pomodoro, unsigned int seconds) {
