@@ -21,6 +21,10 @@ Window window;
 TextLayer timer_layer;
 ActionBarLayer action_bar;
 
+HeapBitmap bmp_action_bar_icon_start;
+HeapBitmap bmp_action_bar_icon_abort;
+HeapBitmap bmp_action_bar_icon_restart;
+
 AppContextRef application_context;
 AppTimerHandle timer;
 
@@ -72,6 +76,11 @@ void handle_init(AppContextRef ctx) {
   application_context = ctx;
   pomodoro_init(&pomodoro);
 
+  resource_init_current_app(&APP_RESOURCES);
+  heap_bitmap_init(&bmp_action_bar_icon_start, RESOURCE_ID_ACTION_BAR_ICON_START);
+  heap_bitmap_init(&bmp_action_bar_icon_abort, RESOURCE_ID_ACTION_BAR_ICON_ABORT);
+  heap_bitmap_init(&bmp_action_bar_icon_restart, RESOURCE_ID_ACTION_BAR_ICON_RESTART);
+
   window_init(&window, "Pomade");
   window_set_window_handlers(&window, (WindowHandlers) {
     .load = window_load,
@@ -91,9 +100,16 @@ void handle_init(AppContextRef ctx) {
   window_stack_push(&window, true /* Animated */);
 }
 
+void handle_deinit(AppContextRef ctx) {
+  heap_bitmap_deinit(&bmp_action_bar_icon_start);
+  heap_bitmap_deinit(&bmp_action_bar_icon_abort);
+  heap_bitmap_deinit(&bmp_action_bar_icon_restart);
+}
+
 void pbl_main(void *params) {
   PebbleAppHandlers handlers = {
     .init_handler = &handle_init,
+    .deinit_handler = &handle_deinit,
     .timer_handler = &handle_timer
   };
   app_event_loop(params, &handlers);
