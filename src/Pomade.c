@@ -25,8 +25,8 @@ AppContextRef application_context;
 AppTimerHandle timer;
 
 #define POMODORO_COOKIE 1
-#define POMODORO_TICK_PERIOD_MS 1000
-#define POMODORO_TICK_PERIOD_SEC POMODORO_TICK_PERIOD_MS / 1000
+#define POMODORO_TICK_PERIOD_SEC 1
+#define POMODORO_TICK_PERIOD_MS  POMODORO_TICK_PERIOD_SEC * 1000
 
 static Pomodoro pomodoro;
 
