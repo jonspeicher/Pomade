@@ -46,6 +46,7 @@ void select_clicked(ClickRecognizerRef recognizer, void* context) {
   } else {
     timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
     pomodoro_init(&pomodoro);
+    text_layer_set_text(&timer_layer, pomodoro.time_left_string);
     pomodoro_start(&pomodoro);
   }
 }
