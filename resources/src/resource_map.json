@@ -1,11 +1,26 @@
-
-{"friendlyVersion": "VERSION",
- "versionDefName": "VERSION",
- "media": [
-	   {
-	    "type":"raw",
-	    "defName":"DUMMY",
-	    "file":"resource_map.json"
-	   }
-	  ]
+{
+  "friendlyVersion": "VERSION",
+  "versionDefName": "APP_RESOURCES",
+  "media": [
+    {
+      "defName": "MENU_ICON",
+      "type": "png",
+      "file": "images/menu_icon.png"
+    },
+    {
+      "defName": "ACTION_BAR_ICON_START",
+      "type": "png",
+      "file": "images/action_bar_icon_start.png"
+    },
+    {
+      "defName": "ACTION_BAR_ICON_ABORT",
+      "type": "png",
+      "file": "images/action_bar_icon_abort.png"
+    },
+    {
+      "defName": "ACTION_BAR_ICON_RESTART",
+      "type": "png",
+      "file": "images/action_bar_icon_restart.png"
+    }
+  ]
 }
