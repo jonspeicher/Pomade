@@ -36,6 +36,7 @@ static Pomodoro pomodoro;
 
 void window_load(Window* window) {
   action_bar_layer_add_to_window(&action_bar, window);
+  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &bmp_action_bar_icon_start.bmp);
 }
 
 void window_unload(Window* window) {
@@ -47,11 +48,13 @@ void select_clicked(ClickRecognizerRef recognizer, void* context) {
     app_timer_cancel_event(application_context, timer);
     pomodoro_abort(&pomodoro);
     vibes_double_pulse();
+    action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &bmp_action_bar_icon_restart.bmp);
   } else {
     timer = app_timer_send_event(application_context, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
     pomodoro_init(&pomodoro);
     text_layer_set_text(&timer_layer, pomodoro.time_left_string);
     pomodoro_start(&pomodoro);
+    action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &bmp_action_bar_icon_abort.bmp);
   }
 }
 
