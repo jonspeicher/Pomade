@@ -13,7 +13,7 @@ PBL_APP_INFO(MY_UUID,
              APP_INFO_STANDARD_APP);
 
 Window window;
-TextLayer timerLayer;
+TextLayer timer_layer;
 
 AppTimerHandle timer;
 #define POMODORO_COOKIE 1
@@ -25,7 +25,7 @@ static Pomodoro pomodoro;
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
   if (cookie == POMODORO_COOKIE) {
     pomodoro_decrement_by_seconds(&pomodoro, POMODORO_TICK_PERIOD_SEC);
-    text_layer_set_text(&timerLayer, pomodoro.time_left_string);
+    text_layer_set_text(&timer_layer, pomodoro.time_left_string);
 
     if (pomodoro.complete) {
       vibes_long_pulse();
@@ -41,11 +41,11 @@ void handle_init(AppContextRef ctx) {
   window_init(&window, "Pomade");
   window_stack_push(&window, true /* Animated */);
 
-  text_layer_init(&timerLayer, window.layer.frame);
-  text_layer_set_text_alignment(&timerLayer, GTextAlignmentCenter);
-  text_layer_set_font(&timerLayer, fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT ));
-  text_layer_set_text(&timerLayer, pomodoro.time_left_string);
-  layer_add_child(&window.layer, &timerLayer.layer);
+  text_layer_init(&timer_layer, window.layer.frame);
+  text_layer_set_text_alignment(&timer_layer, GTextAlignmentCenter);
+  text_layer_set_font(&timer_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
+  text_layer_set_text(&timer_layer, pomodoro.time_left_string);
+  layer_add_child(&window.layer, &timer_layer.layer);
 
   timer = app_timer_send_event(ctx, POMODORO_TICK_PERIOD_MS, POMODORO_COOKIE);
 }
