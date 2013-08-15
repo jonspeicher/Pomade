@@ -7,7 +7,8 @@
 #include <pebble_os.h>
 #include <pebble_app.h>
 
-#include "timer_controller.h"
+#include "cookies.h"
+#include "countdown_controller.h"
 #include "version.h"
 
 // Define the app's unique identifier and metadata.
@@ -19,17 +20,17 @@ PBL_APP_INFO(APP_UUID, APP_NAME, APP_AUTHOR,
              APP_VERSION_MAJOR, APP_VERSION_MINOR,
              RESOURCE_ID_APP_MENU_ICON, APP_INFO_STANDARD_APP);
 
-// Application event handlers -------------------------------------------------
-
-void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
-  if (cookie == TIMER_CONTROLLER_COOKIE) {
-    timer_controller_periodic_event(handle);
-  }
-}
+// Event handlers -------------------------------------------------------------
 
 void handle_init(AppContextRef ctx) {
   resource_init_current_app(&APP_RESOURCES);
-  timer_controller_init(ctx);
+  countdown_controller_init(ctx);
+}
+
+void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
+  if (cookie == COUNTDOWN_COOKIE) {
+    countdown_controller_timer_event(handle);
+  }
 }
 
 // main -----------------------------------------------------------------------
