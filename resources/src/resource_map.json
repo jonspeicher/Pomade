@@ -3,7 +3,7 @@
   "versionDefName": "APP_RESOURCES",
   "media": [
     {
-      "defName": "MENU_ICON_POMADE",
+      "defName": "APP_MENU_ICON",
       "type": "png",
       "file": "images/menu_icon_pomade.png"
     },
