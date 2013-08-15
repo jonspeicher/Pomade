@@ -18,3 +18,4 @@
     * Show completed/aborted stats on main page?
     * Or show how many pomodoros left to long break?
     * Consider "four bubbles" and the word "break?"
+* `version.h` with defines for name, "company", major/minor
