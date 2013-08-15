@@ -5,22 +5,22 @@
     {
       "defName": "APP_MENU_ICON",
       "type": "png",
-      "file": "images/menu_icon_pomade.png"
+      "file": "images/icon_pomade.png"
     },
     {
-      "defName": "ACTION_BAR_ICON_START",
+      "defName": "ICON_START",
       "type": "png",
-      "file": "images/action_bar_icon_start.png"
+      "file": "images/icon_start.png"
     },
     {
-      "defName": "ACTION_BAR_ICON_ABORT",
+      "defName": "ICON_ABORT",
       "type": "png",
-      "file": "images/action_bar_icon_abort.png"
+      "file": "images/icon_abort.png"
     },
     {
-      "defName": "ACTION_BAR_ICON_RESTART",
+      "defName": "ICON_RESTART",
       "type": "png",
-      "file": "images/action_bar_icon_restart.png"
+      "file": "images/icon_restart.png"
     }
   ]
 }

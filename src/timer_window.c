@@ -58,9 +58,9 @@ void timer_window_show_restart() {
 // Private functions ----------------------------------------------------------
 
 void window_layout(Window* window) {
-  heap_bitmap_init(&icons.start, RESOURCE_ID_ACTION_BAR_ICON_START);
-  heap_bitmap_init(&icons.restart, RESOURCE_ID_ACTION_BAR_ICON_RESTART);
-  heap_bitmap_init(&icons.abort, RESOURCE_ID_ACTION_BAR_ICON_ABORT);
+  heap_bitmap_init(&icons.start, RESOURCE_ID_ICON_START);
+  heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
+  heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
 
   action_bar_layer_init(&action_bar);
   action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
