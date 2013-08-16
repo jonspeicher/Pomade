@@ -41,10 +41,10 @@ void countdown_controller_init(AppContextRef ctx) {
   app_ctx = ctx;
   pomodoro_init(&pomodoro);
   // TBD: Consider adding time left and click config to "constructor" - JRS 8/15
-  timer_window_init();
-  timer_window_set_time_remaining(pomodoro.time_left_string);
-  timer_window_set_click_config_provider(click_config_provider);
-  timer_window_push();
+  countdown_window_init();
+  countdown_window_set_click_config_provider(click_config_provider);
+  countdown_window_set_time_remaining(pomodoro.time_left_string);
+  countdown_window_push();
 }
 
 // Event handlers -------------------------------------------------------------
@@ -58,11 +58,11 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     cancel_countdown_tick_timer();
     pomodoro_abort(&pomodoro);
     vibes_double_pulse();
-    timer_window_show_restart();
+    countdown_window_show_restart();
   } else {
     pomodoro_init(&pomodoro);
-    timer_window_set_time_remaining(pomodoro.time_left_string);
-    timer_window_show_abort();
+    countdown_window_set_time_remaining(pomodoro.time_left_string);
+    countdown_window_show_abort();
     pomodoro_start(&pomodoro);
     start_countdown_tick_timer();
   }
@@ -72,7 +72,7 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
   // TBD: I'm not sure the next line is actually necessary - JRS 8/15
   timer = handle;
   pomodoro_decrement_by_seconds(&pomodoro, COUNTDOWN_TICK_SEC);
-  timer_window_set_time_remaining(pomodoro.time_left_string);
+  countdown_window_set_time_remaining(pomodoro.time_left_string);
 
   if (pomodoro.complete) {
     vibes_long_pulse();
