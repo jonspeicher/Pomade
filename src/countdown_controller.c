@@ -8,8 +8,8 @@
 
 #include "cookies.h"
 #include "countdown_controller.h"
+#include "countdown_window.h"
 #include "pomodoro.h"
-#include "timer_window.h"
 
 // Define the duration of each tick to be used when counting down.
 
