@@ -28,6 +28,8 @@ void handle_init(AppContextRef ctx) {
 }
 
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
+  // TBD: Is it worth retrieving this from the controller somehow? Would it
+  // ever need to be chained? - JRS 8/15
   if (cookie == COUNTDOWN_COOKIE) {
     countdown_controller_timer_event(handle);
   }
