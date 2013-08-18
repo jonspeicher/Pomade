@@ -25,6 +25,17 @@
     * Or the window stays as a "timer window" (or something) and is created by
       the app in "main", and the window is passed to both the countdown
       controller and the "bubble" controller, and each adds its own controls?
+    * Or the window aggregates two "interfaces"; one for countdown, one for
+      bubbles, and the interfaces are passed in to each controller but the
+      window is created as a whole and is the "pomodoro timer window"
+          * Either the interfaces also point to functions to operate on them or
+            there are specific APIs for dealing with the interface objects and
+            potentially building them as well (or they're built by the window
+            so that they can be located appropriately
+          * That's probably the answer: in the window c'tor, say "create a
+            bubble object at x,y" and "create a countdown object at "a,b" via
+            bubble object and countdown object APIs, then give those structs
+            out to the controllers
 
 ## One architectural idea
 
@@ -36,17 +47,23 @@
       add its own layers
 * Maybe there's a pomodoro controller
     * It would work with the countdown controller
-    * It would regiters callbacks with it for interval abort/complete events
+    * It would register callbacks with it for interval abort/complete events
     * It would work with the stats controller and work with the bubble
       controller
 
 ## How far can/should DI be taken?
 
-* `create_countdown_window` to create a struct with a `Window*` and
+* `create_countdown_window` could create a struct with a `Window*` and
   pointers to functions to set text, etcetera?
-* Would that struct be defined by the countdown controller?
-* Who would populate the struct (the dependency injector?)
-* Who would pass it in to the controller (the dependency injector?)
+* This would then be given to the controller to remove the hard-coded calls to
+  the view API?
+* Who would define the struct? The controller? The window?
+* Who would populate the struct? The dependency injector, e.g. main?
+* Who would pass it in to the controller? The dependency injector, e.g. main?
 * With a Pebble `Window*` most of the OS APIs could be used, and those probably
   wouldn't be DI'd, but I suppose they could be if you wanted to do crazy
   testing, but surely the sample code and models don't go to that extent
+* To get totally crazy, the "Interval" abstraction could have a struct with
+  pointers-to-functions too, as those calls are hard-coded into the controller
+  at this point as well
+* What am I trying to accomplish? Polymorphism? Testing?
