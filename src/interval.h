@@ -11,7 +11,7 @@
 // Defines the number of characters in an interval time left display string.
 // Note that this does not account for the terminating NULL character.
 
-#define INTERVAL_TIME_LEFT_STRING_NUM_CHARS 5
+#define INTERVAL_TIME_REMAINING_STRING_NUM_CHARS 5
 
 // Define the maximum supported interval value. Note that this is primarily a
 // function of the number of characters supported by the time left string.
@@ -28,7 +28,7 @@ typedef struct {
   unsigned int minutes;
   unsigned int seconds;
   unsigned int time_remaining_sec;
-  char time_left_string[INTERVAL_TIME_LEFT_STRING_NUM_CHARS + 1];
+  char time_remaining_string[INTERVAL_TIME_REMAINING_STRING_NUM_CHARS + 1];
 } Interval;
 
 // Initializes an interval to the number of minutes and seconds remaining.

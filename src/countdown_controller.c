@@ -43,7 +43,7 @@ void countdown_controller_init(AppContextRef ctx) {
   // TBD: Consider adding time left and click config to "constructor" - JRS 8/15
   countdown_window_init();
   countdown_window_set_click_config_provider(click_config_provider);
-  countdown_window_set_time_remaining(interval.time_left_string);
+  countdown_window_set_time_remaining(interval.time_remaining_string);
   countdown_window_push();
 }
 
@@ -61,7 +61,7 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     countdown_window_show_restart();
   } else {
     interval_reset(&interval);
-    countdown_window_set_time_remaining(interval.time_left_string);
+    countdown_window_set_time_remaining(interval.time_remaining_string);
     countdown_window_show_abort();
     interval_start(&interval);
     start_countdown_tick_timer();
@@ -72,7 +72,7 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
   // TBD: I'm not sure the next line is actually necessary - JRS 8/15
   timer = handle;
   interval_decrement_by_seconds(&interval, COUNTDOWN_TICK_SEC);
-  countdown_window_set_time_remaining(interval.time_left_string);
+  countdown_window_set_time_remaining(interval.time_remaining_string);
 
   if (interval.complete) {
     vibes_long_pulse();
