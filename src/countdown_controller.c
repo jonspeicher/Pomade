@@ -69,8 +69,6 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
 }
 
 void countdown_controller_timer_event(AppTimerHandle handle) {
-  // TBD: I'm not sure the next line is actually necessary - JRS 8/15
-  timer = handle;
   interval_decrement_by_seconds(&interval, COUNTDOWN_TICK_SEC);
   countdown_window_set_time_remaining(interval.time_remaining_string);
 
