@@ -25,9 +25,9 @@
 typedef struct {
   bool running;
   bool complete;
-  unsigned int minutes_left;
-  unsigned int seconds_left;
-  unsigned int total_seconds_left;
+  unsigned int minutes;
+  unsigned int seconds;
+  unsigned int time_remaining_sec;
   char time_left_string[INTERVAL_TIME_LEFT_STRING_NUM_CHARS + 1];
 } Interval;
 

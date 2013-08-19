@@ -22,9 +22,9 @@ void interval_init(Interval* interval, unsigned int minutes, unsigned int second
   if (minutes > INTERVAL_MAX_DURATION_MIN) minutes = INTERVAL_MAX_DURATION_MIN;
   if (seconds > INTERVAL_MAX_DURATION_SEC) seconds = INTERVAL_MAX_DURATION_SEC;
 
-  interval->minutes_left = minutes;
-  interval->seconds_left = seconds;
-  interval->total_seconds_left = (minutes * 60) + seconds;
+  interval->minutes = minutes;
+  interval->seconds = seconds;
+  interval->time_remaining_sec = (minutes * 60) + seconds;
 
   update_fields(interval);
   interval->running = false;
@@ -40,10 +40,10 @@ void interval_abort(Interval* interval) {
 }
 
 void interval_decrement_by_seconds(Interval* interval, unsigned int seconds) {
-  if ((int) interval->total_seconds_left - (int) seconds > 0) {
-    interval->total_seconds_left -= seconds;
+  if ((int) interval->time_remaining_sec - (int) seconds > 0) {
+    interval->time_remaining_sec -= seconds;
   } else {
-    interval->total_seconds_left = 0;
+    interval->time_remaining_sec = 0;
   }
   update_fields(interval);
 }
@@ -51,12 +51,14 @@ void interval_decrement_by_seconds(Interval* interval, unsigned int seconds) {
 // Private functions ----------------------------------------------------------
 
 void update_fields(Interval* interval) {
-  if (interval->total_seconds_left == 0) {
+  unsigned int minutes_left, seconds_left;
+
+  if (interval->time_remaining_sec == 0) {
     interval->complete = true;
   }
-  interval->minutes_left = interval->total_seconds_left / 60;
-  interval->seconds_left = interval->total_seconds_left % 60;
+  minutes_left = interval->time_remaining_sec / 60;
+  seconds_left = interval->time_remaining_sec % 60;
   snprintf(interval->time_left_string, INTERVAL_TIME_LEFT_STRING_NUM_CHARS + 1,
            INTERVAL_TIME_LEFT_STRING_FORMAT,
-           interval->minutes_left, interval->seconds_left);
+           minutes_left, seconds_left);
 }
