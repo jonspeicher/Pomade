@@ -8,8 +8,6 @@
     * pomodoro abort -> pomodoro
     * break complete -> pomodoro
     * break abort -> pomodoro
-* Pull string out of interval, add a `format_time` function like for pebble
-  that snprintfs into a caller's string
 * Add a stats module that tracks complete and aborts
 * Add a stats page that shows percentages and averages and MTBI
 * Need a way to show interval type on main page
