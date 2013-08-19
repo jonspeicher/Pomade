@@ -16,9 +16,9 @@
 #define COUNTDOWN_TICK_SEC 1
 #define COUNTDOWN_TICK_MS  COUNTDOWN_TICK_SEC * 1000
 
-// Define the data structure used to manage the countdown interval.
+// Define the data structure used to manage the pomodoro interval.
 
-static Interval interval;
+static Interval pomodoro;
 
 // Define the persistent handles necessary for interacting with the Pebble API.
 
@@ -39,9 +39,9 @@ static void cancel_countdown_tick_timer();
 
 void countdown_controller_init(AppContextRef ctx) {
   app_ctx = ctx;
-  interval_init(&interval, 25, 0);
+  interval_init(&pomodoro, 25, 0);
   countdown_window_init(click_config_provider);
-  countdown_window_set_time_remaining(interval.time_remaining_string);
+  countdown_window_set_time_remaining(pomodoro.time_remaining_string);
   countdown_window_push();
 }
 
@@ -52,25 +52,25 @@ void click_config_provider(ClickConfig* config[], void* ctx) {
 }
 
 void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
-  if (interval.running) {
+  if (pomodoro.running) {
     cancel_countdown_tick_timer();
-    interval_abort(&interval);
+    interval_abort(&pomodoro);
     vibes_double_pulse();
     countdown_window_show_restart();
   } else {
-    interval_reset(&interval);
-    countdown_window_set_time_remaining(interval.time_remaining_string);
+    interval_reset(&pomodoro);
+    countdown_window_set_time_remaining(pomodoro.time_remaining_string);
     countdown_window_show_abort();
-    interval_start(&interval);
+    interval_start(&pomodoro);
     start_countdown_tick_timer();
   }
 }
 
 void countdown_controller_timer_event(AppTimerHandle handle) {
-  interval_decrement_by_seconds(&interval, COUNTDOWN_TICK_SEC);
-  countdown_window_set_time_remaining(interval.time_remaining_string);
+  interval_decrement_by_seconds(&pomodoro, COUNTDOWN_TICK_SEC);
+  countdown_window_set_time_remaining(pomodoro.time_remaining_string);
 
-  if (interval.complete) {
+  if (pomodoro.complete) {
     vibes_long_pulse();
   } else {
     start_countdown_tick_timer();
