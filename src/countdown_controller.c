@@ -9,7 +9,7 @@
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "countdown_window.h"
-#include "pomodoro.h"
+#include "interval.h"
 
 // Define the duration of each tick to be used when counting down.
 
@@ -18,7 +18,7 @@
 
 // Define the data structure used to manage the countdown interval.
 
-static Pomodoro pomodoro;
+static Interval interval;
 
 // Define the persistent handles necessary for interacting with the Pebble API.
 
@@ -39,11 +39,11 @@ static void cancel_countdown_tick_timer();
 
 void countdown_controller_init(AppContextRef ctx) {
   app_ctx = ctx;
-  pomodoro_init(&pomodoro);
+  interval_init(&interval, 25, 0);
   // TBD: Consider adding time left and click config to "constructor" - JRS 8/15
   countdown_window_init();
   countdown_window_set_click_config_provider(click_config_provider);
-  countdown_window_set_time_remaining(pomodoro.time_left_string);
+  countdown_window_set_time_remaining(interval.time_left_string);
   countdown_window_push();
 }
 
@@ -54,16 +54,17 @@ void click_config_provider(ClickConfig* config[], void* ctx) {
 }
 
 void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
-  if (pomodoro.running) {
+  if (interval.running) {
     cancel_countdown_tick_timer();
-    pomodoro_abort(&pomodoro);
+    interval_abort(&interval);
     vibes_double_pulse();
     countdown_window_show_restart();
   } else {
-    pomodoro_init(&pomodoro);
-    countdown_window_set_time_remaining(pomodoro.time_left_string);
+    // TBD: Make this a "reset" - JRS 8/18
+    interval_init(&interval, 25, 0);
+    countdown_window_set_time_remaining(interval.time_left_string);
     countdown_window_show_abort();
-    pomodoro_start(&pomodoro);
+    interval_start(&interval);
     start_countdown_tick_timer();
   }
 }
@@ -71,10 +72,10 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
 void countdown_controller_timer_event(AppTimerHandle handle) {
   // TBD: I'm not sure the next line is actually necessary - JRS 8/15
   timer = handle;
-  pomodoro_decrement_by_seconds(&pomodoro, COUNTDOWN_TICK_SEC);
-  countdown_window_set_time_remaining(pomodoro.time_left_string);
+  interval_decrement_by_seconds(&interval, COUNTDOWN_TICK_SEC);
+  countdown_window_set_time_remaining(interval.time_left_string);
 
-  if (pomodoro.complete) {
+  if (interval.complete) {
     vibes_long_pulse();
   } else {
     start_countdown_tick_timer();
