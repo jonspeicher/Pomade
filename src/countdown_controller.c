@@ -60,8 +60,7 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     vibes_double_pulse();
     countdown_window_show_restart();
   } else {
-    // TBD: Make this a "reset" - JRS 8/18
-    interval_init(&interval, 25, 0);
+    interval_reset(&interval);
     countdown_window_set_time_remaining(interval.time_left_string);
     countdown_window_show_abort();
     interval_start(&interval);

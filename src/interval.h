@@ -35,6 +35,11 @@ typedef struct {
 
 void interval_init(Interval* interval, unsigned int minutes, unsigned int seconds);
 
+// Resets an interval to its initially-configured duration. This will also mark
+// the interval as not running and not complete.
+
+void interval_reset(Interval* interval);
+
 // Starts an interval.
 
 void interval_start(Interval* interval);

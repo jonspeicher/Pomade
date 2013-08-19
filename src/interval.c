@@ -31,6 +31,13 @@ void interval_init(Interval* interval, unsigned int minutes, unsigned int second
   interval->complete = false;
 }
 
+void interval_reset(Interval* interval) {
+  interval->time_remaining_sec = (interval->minutes * 60) + interval->seconds;
+  update_fields(interval);
+  interval->running = false;
+  interval->complete = false;
+}
+
 void interval_start(Interval* interval) {
   interval->running = true;
 }
