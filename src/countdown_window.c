@@ -33,15 +33,12 @@ static void window_unload(Window* window);
 
 // Public functions -----------------------------------------------------------
 
-void countdown_window_init() {
+void countdown_window_init(ClickConfigProvider provider) {
   window_init(&this_window, WINDOW_DEBUG_NAME);
   window_set_window_handlers(&this_window, (WindowHandlers) {
     .unload = window_unload
   });
   window_layout(&this_window);
-}
-
-void countdown_window_set_click_config_provider(ClickConfigProvider provider) {
   action_bar_layer_set_click_config_provider(&action_bar, provider);
 }
 

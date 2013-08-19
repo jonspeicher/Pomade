@@ -40,9 +40,7 @@ static void cancel_countdown_tick_timer();
 void countdown_controller_init(AppContextRef ctx) {
   app_ctx = ctx;
   interval_init(&interval, 25, 0);
-  // TBD: Consider adding time left and click config to "constructor" - JRS 8/15
-  countdown_window_init();
-  countdown_window_set_click_config_provider(click_config_provider);
+  countdown_window_init(click_config_provider);
   countdown_window_set_time_remaining(interval.time_remaining_string);
   countdown_window_push();
 }

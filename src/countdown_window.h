@@ -9,18 +9,11 @@
 #include <pebble_os.h>
 
 // Initializes the countdown window. This will load any necessary resources and
-// lay the window out, but will not display the window. Note that it is only
-// necessary to do this once, prior to pushing the window to the stack, because
-// the window will remain initialized for the duration of the app run, as there
-// is no way provided to deinitialize it.
+// lay the window out, but will not display the window. The click config
+// provider parameter sets the click config provider for the window, which will
+// be invoked whenever the window needs to update the click configuration.
 
-void countdown_window_init();
-
-// Sets the click config provider for the countdown window. This provider will
-// be invoked whenever the countdown window needs to update the click
-// configuration.
-
-void countdown_window_set_click_config_provider(ClickConfigProvider provider);
+void countdown_window_init(ClickConfigProvider provider);
 
 // Pushes the countdown window onto the window stack.
 
