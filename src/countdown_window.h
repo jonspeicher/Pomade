@@ -19,12 +19,11 @@ void countdown_window_init(ClickConfigProvider provider);
 
 void countdown_window_push();
 
-// Sets the time remaining to be displayed on the countdown window. Note that
-// no validation is done to ensure that the time remaining string will fit on
-// the window's display, and a call to this function will only have an effect
-// after the window is initialzed.
+// Sets the time remaining to be displayed on the countdown window. If the time
+// remaining will not fit on the window's display, it will be truncated. A call
+// to this function will only have an effect after the window is initialized.
 
-void countdown_window_set_time_remaining(char* time_remaining);
+void countdown_window_set_time_remaining_sec(unsigned int seconds);
 
 // Shows the "abort" state of the countdown window.
 

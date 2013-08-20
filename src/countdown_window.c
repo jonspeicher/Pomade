@@ -12,6 +12,19 @@
 
 #define WINDOW_DEBUG_NAME "countdown"
 
+// Define the length in characters of the time remaining string, including NULL.
+
+#define TIME_REMAINING_STRING_LENGTH 6
+
+// Define the format for the time remaining display string.
+
+#define TIME_REMAINING_STRING_FORMAT "%d:%02d"
+
+// Define the time remaining string itself. This must not be stack-based as the
+// API requires long-lived storage.
+
+static char time_remaining_string[TIME_REMAINING_STRING_LENGTH] = "";
+
 // Define the various user interface elements comprising this window.
 
 static Window this_window;
@@ -46,8 +59,13 @@ void countdown_window_push() {
   window_stack_push(&this_window, true);
 }
 
-void countdown_window_set_time_remaining(char* time_remaining) {
-  text_layer_set_text(&countdown_layer, time_remaining);
+void countdown_window_set_time_remaining_sec(unsigned int seconds) {
+  unsigned int minutes_left = seconds / 60;
+  unsigned int seconds_left = seconds % 60;
+
+  snprintf(time_remaining_string, TIME_REMAINING_STRING_LENGTH,
+           TIME_REMAINING_STRING_FORMAT, minutes_left, seconds_left);
+  text_layer_set_text(&countdown_layer, time_remaining_string);
 }
 
 void countdown_window_show_abort() {

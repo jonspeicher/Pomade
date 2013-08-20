@@ -1,6 +1,5 @@
 # To Do
 
-* Pomodoro -> Interval and `pomodoro_` and `break_` functions
 * Logic to keep `long_break` and `short_break` and `pomodoro` and manage
   transitions; maybe a separate sequence tracker that the timer asks for the
   next interval or something?
@@ -48,6 +47,7 @@
     * It would register callbacks with it for interval abort/complete events
     * It would work with the stats controller and work with the bubble
       controller
+    * Maybe it would be a state machine or something for sequencing
 
 ## How far can/should DI be taken?
 
