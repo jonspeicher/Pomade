@@ -73,6 +73,7 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
   if (pomodoro.complete) {
     vibes_long_pulse();
   } else {
+    // TBD: Account for drift here if there's a clean way to do it - JRS 8/19
     start_countdown_tick_timer();
   }
 }
