@@ -1,6 +1,7 @@
 # Pomade
 
-Pomodoro tracking on the wrist. More to come, hopefully. See `TODO.markdown`.
+Pomodoro tracking on the wrist. Functional now, with hopefully more to come,
+hopefully. See `TODO.markdown`.
 
 To clone and hack:
 
