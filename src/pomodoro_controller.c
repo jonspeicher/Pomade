@@ -20,8 +20,7 @@ static Interval pomodoro;
 
 void pomodoro_controller_init(AppContextRef ctx) {
   interval_init(&pomodoro, 25, 0);
-  Window* timer_window = timer_window_init();
-  countdown_controller_init(ctx, timer_window);
+  countdown_controller_init(ctx, timer_window_init());
   countdown_controller_set_interval(&pomodoro);
   timer_window_push();
 }
