@@ -8,6 +8,7 @@
 
 #include "cookies.h"
 #include "countdown_controller.h"
+#include "countdown_view.h"
 #include "countdown_window.h"
 #include "interval.h"
 
@@ -38,10 +39,12 @@ static void cancel_countdown_tick_timer();
 // Public functions -----------------------------------------------------------
 
 void countdown_controller_init(AppContextRef ctx) {
+  Window* countdown_window;
   app_ctx = ctx;
   interval_init(&pomodoro, 25, 0);
-  countdown_window_init(click_config_provider);
-  countdown_window_set_time_remaining_sec(pomodoro.time_remaining_sec);
+  countdown_window = countdown_window_init();
+  countdown_view_init(countdown_window, click_config_provider);
+  countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
   countdown_window_push();
 }
 
@@ -56,11 +59,11 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     cancel_countdown_tick_timer();
     interval_abort(&pomodoro);
     vibes_double_pulse();
-    countdown_window_show_restart();
+    countdown_view_show_restart();
   } else {
     interval_reset(&pomodoro);
-    countdown_window_set_time_remaining_sec(pomodoro.time_remaining_sec);
-    countdown_window_show_abort();
+    countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
+    countdown_view_show_abort();
     interval_start(&pomodoro);
     start_countdown_tick_timer();
   }
@@ -68,7 +71,7 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
 
 void countdown_controller_timer_event(AppTimerHandle handle) {
   interval_decrement_by_seconds(&pomodoro, COUNTDOWN_TICK_SEC);
-  countdown_window_set_time_remaining_sec(pomodoro.time_remaining_sec);
+  countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
 
   if (pomodoro.complete) {
     vibes_long_pulse();
