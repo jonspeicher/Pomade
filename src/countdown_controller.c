@@ -16,9 +16,9 @@
 #define COUNTDOWN_TICK_SEC 1
 #define COUNTDOWN_TICK_MS  COUNTDOWN_TICK_SEC * 1000
 
-// Define the data structure used to manage the pomodoro interval.
+// Define the data structure used to manage the countdown interval.
 
-static Interval pomodoro;
+static Interval* interval;
 
 // Define the persistent handles necessary for interacting with the Pebble API.
 
@@ -39,37 +39,46 @@ static void cancel_countdown_tick_timer();
 
 void countdown_controller_init(AppContextRef ctx, Window* window) {
   app_ctx = ctx;
-  interval_init(&pomodoro, 25, 0);
   countdown_view_init(window, click_config_provider);
-  countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
+}
+
+void countdown_controller_set_interval(Interval* new_interval) {
+  interval = new_interval;
+  countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
 }
 
 // Event handlers -------------------------------------------------------------
+
+// TBD: It's probably going to be necessary to pull these up a level and/or
+// hook up some callbacks between this controller and the coordinating
+// controller - JRS 8/20
 
 void click_config_provider(ClickConfig* config[], void* ctx) {
   config[BUTTON_ID_SELECT]->click.handler = toggle_countdown_state_click;
 }
 
 void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
-  if (pomodoro.running) {
+  if (interval->running) {
     cancel_countdown_tick_timer();
-    interval_abort(&pomodoro);
+    interval_abort(interval);
     vibes_double_pulse();
     countdown_view_show_restart();
   } else {
-    interval_reset(&pomodoro);
-    countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
+    interval_reset(interval);
+    countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
     countdown_view_show_abort();
-    interval_start(&pomodoro);
+    interval_start(interval);
     start_countdown_tick_timer();
   }
 }
 
 void countdown_controller_timer_event(AppTimerHandle handle) {
-  interval_decrement_by_seconds(&pomodoro, COUNTDOWN_TICK_SEC);
-  countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
+  if (interval->running) {
+    interval_decrement_by_seconds(interval, COUNTDOWN_TICK_SEC);
+    countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
+  }
 
-  if (pomodoro.complete) {
+  if (interval->complete) {
     vibes_long_pulse();
   } else {
     // TBD: Account for drift here if there's a clean way to do it - JRS 8/19
