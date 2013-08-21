@@ -8,7 +8,7 @@
 #include <pebble_app.h>
 
 #include "cookies.h"
-#include "countdown_controller.h"
+#include "pomodoro_controller.h"
 #include "version.h"
 
 // Define the app's unique identifier and metadata.
@@ -24,15 +24,11 @@ PBL_APP_INFO(APP_UUID, APP_NAME, APP_AUTHOR,
 
 void handle_init(AppContextRef ctx) {
   resource_init_current_app(&APP_RESOURCES);
-  countdown_controller_init(ctx);
+  pomodoro_controller_init(ctx);
 }
 
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
-  // TBD: Is it worth retrieving this from the controller somehow? Would it
-  // ever need to be chained? - JRS 8/15
-  if (cookie == COUNTDOWN_COOKIE) {
-    countdown_controller_timer_event(handle);
-  }
+  pomodoro_controller_timer_event(handle, cookie);
 }
 
 // main -----------------------------------------------------------------------

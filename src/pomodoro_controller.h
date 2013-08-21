@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// countdown_controller - Controls arbitrary interval countdown and display
+// pomodoro_controller - Implements the Pomodoro Technique sequence and timing
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
@@ -8,12 +8,13 @@
 
 #include <pebble_os.h>
 
-// Initializes the countdown controller.
+// Initializes the pomodoro controller. This will also push the main pomodoro
+// timing window on to the window stack.
 
-void countdown_controller_init(AppContextRef ctx);
+void pomodoro_controller_init(AppContextRef ctx);
 
-// Informs the countdown controller that its timer event has occurred. The main
+// Informs the pomodoro controller that a timer event has occurred. The main
 // application is responsible for handling timer events and forwarding them
 // along to the appropriate controllers.
 
-void countdown_controller_timer_event(AppTimerHandle handle);
+void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie);
