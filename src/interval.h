@@ -8,10 +8,10 @@
 
 #include <stdbool.h>
 
-// Define the maximum supported interval value. Note that this is primarily a
-// function of the number of characters supported by the time left string.
+// Define the maximum supported interval value. These values are somewhat-
+// arbitrarily chosen but are intended to keep the ranges and the logic sane.
 
-#define INTERVAL_MAX_DURATION_MIN 99
+#define INTERVAL_MAX_DURATION_MIN 59
 #define INTERVAL_MAX_DURATION_SEC 59
 
 // Defines an interval. Intervals consist primarily of the countdown timer and
