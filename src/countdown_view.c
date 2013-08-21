@@ -33,6 +33,10 @@ static struct {
   HeapBitmap abort;
 } icons;
 
+// Define a variable to hold the previous unload handler for chaining.
+
+static WindowHandler previous_unload_handler;
+
 // Private functions.
 
 static void load_and_add_view(Window* window, ClickConfigProvider provider);
@@ -42,7 +46,7 @@ static void remove_and_unload_view(Window* window);
 
 void countdown_view_init(Window* window, ClickConfigProvider provider) {
   load_and_add_view(window, provider);
-  // TBD: chain chain chain chain chain
+  previous_unload_handler = window->window_handlers.unload;
   window_set_window_handlers(window, (WindowHandlers) {
     .unload = remove_and_unload_view
   });
@@ -91,4 +95,8 @@ void remove_and_unload_view(Window* window) {
   heap_bitmap_deinit(&icons.start);
   heap_bitmap_deinit(&icons.restart);
   heap_bitmap_deinit(&icons.abort);
+
+  if (previous_unload_handler) {
+    previous_unload_handler(window);
+  }
 }
