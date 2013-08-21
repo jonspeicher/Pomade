@@ -10,7 +10,7 @@
 
 // Initializes the countdown controller.
 
-void countdown_controller_init(AppContextRef ctx);
+void countdown_controller_init(AppContextRef ctx, Window* window);
 
 // Informs the countdown controller that its timer event has occurred. The main
 // application is responsible for handling timer events and forwarding them

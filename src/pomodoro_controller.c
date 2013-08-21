@@ -9,9 +9,12 @@
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "pomodoro_controller.h"
+#include "timer_window.h"
 
 void pomodoro_controller_init(AppContextRef ctx) {
-  countdown_controller_init(ctx);
+  Window* timer_window = timer_window_init();
+  countdown_controller_init(ctx, timer_window);
+  timer_window_push();
 }
 
 void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {

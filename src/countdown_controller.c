@@ -10,7 +10,6 @@
 #include "countdown_controller.h"
 #include "countdown_view.h"
 #include "interval.h"
-#include "timer_window.h"
 
 // Define the duration of each tick to be used when counting down.
 
@@ -38,14 +37,11 @@ static void cancel_countdown_tick_timer();
 
 // Public functions -----------------------------------------------------------
 
-void countdown_controller_init(AppContextRef ctx) {
-  Window* timer_window;
+void countdown_controller_init(AppContextRef ctx, Window* window) {
   app_ctx = ctx;
   interval_init(&pomodoro, 25, 0);
-  timer_window = timer_window_init();
-  countdown_view_init(timer_window, click_config_provider);
+  countdown_view_init(window, click_config_provider);
   countdown_view_set_time_remaining_sec(pomodoro.time_remaining_sec);
-  timer_window_push();
 }
 
 // Event handlers -------------------------------------------------------------
