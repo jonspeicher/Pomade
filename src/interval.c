@@ -4,7 +4,6 @@
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
 
-#include <stdio.h>
 #include "interval.h"
 
 // Public functions -----------------------------------------------------------
