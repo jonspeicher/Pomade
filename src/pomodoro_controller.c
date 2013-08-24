@@ -9,6 +9,7 @@
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "interval.h"
+#include "pomodoro_config.h"
 #include "pomodoro_controller.h"
 #include "timer_window.h"
 
@@ -34,7 +35,7 @@ void pomodoro_controller_init(AppContextRef ctx) {
     .complete = countdown_complete_handler,
     .aborted = countdown_abort_handler
   };
-  interval_init(&pomodoro, 25, 0);
+  interval_init(&pomodoro, POMODORO_MINUTES, POMODORO_SECONDS);
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
   countdown_controller_set_countdown_handlers(handlers);
