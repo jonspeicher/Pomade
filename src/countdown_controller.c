@@ -67,7 +67,6 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     cancel_countdown_tick_timer();
     // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_abort(interval);
-    vibes_double_pulse();
     countdown_view_show_restart();
     invoke_handler(countdown_handlers.aborted);
   } else {
@@ -89,7 +88,6 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
   }
 
   if (interval->complete) {
-    vibes_long_pulse();
     invoke_handler(countdown_handlers.complete);
   } else {
     // TBD: Account for drift here if there's a clean way to do it - JRS 8/19

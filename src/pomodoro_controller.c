@@ -56,7 +56,9 @@ void countdown_start_handler() {
 }
 
 void countdown_complete_handler() {
+  vibes_long_pulse();
 }
 
 void countdown_abort_handler() {
+  vibes_double_pulse();
 }
