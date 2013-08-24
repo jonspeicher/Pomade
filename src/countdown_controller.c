@@ -16,9 +16,10 @@
 #define COUNTDOWN_TICK_SEC 1
 #define COUNTDOWN_TICK_MS  COUNTDOWN_TICK_SEC * 1000
 
-// Define the data structure used to manage the countdown interval.
+// Define the data structures used to manage the countdown interval.
 
 static Interval* interval;
+static bool show_restart_on_abort = true;
 
 // Define the persistent handles necessary for interacting with the Pebble API.
 
@@ -39,6 +40,7 @@ static void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx);
 static void start_countdown_tick_timer();
 static void cancel_countdown_tick_timer();
 static void invoke_handler(CountdownHandler handler);
+static void show_configured_countdown_aborted_view();
 
 // Public functions -----------------------------------------------------------
 
@@ -56,6 +58,14 @@ void countdown_controller_set_interval(Interval* new_interval) {
   countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
 }
 
+void countdown_controller_set_abort_action_to_start() {
+  show_restart_on_abort = false;
+}
+
+void countdown_controller_set_abort_action_to_restart() {
+  show_restart_on_abort = true;
+}
+
 // Event handlers -------------------------------------------------------------
 
 void click_config_provider(ClickConfig* config[], void* ctx) {
@@ -67,7 +77,7 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     cancel_countdown_tick_timer();
     // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_abort(interval);
-    countdown_view_show_restart();
+    show_configured_countdown_aborted_view();
     invoke_handler(countdown_handlers.aborted);
   } else {
     invoke_handler(countdown_handlers.started);
@@ -108,4 +118,12 @@ void cancel_countdown_tick_timer() {
 
 void invoke_handler(CountdownHandler handler) {
   if (handler) handler();
+}
+
+void show_configured_countdown_aborted_view() {
+  if (show_restart_on_abort) {
+    countdown_view_show_restart();
+  } else {
+    countdown_view_show_start();
+  }
 }

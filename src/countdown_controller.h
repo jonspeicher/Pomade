@@ -42,6 +42,16 @@ void countdown_controller_set_countdown_handlers(CountdownHandlers handlers);
 
 void countdown_controller_set_interval(Interval* interval);
 
+// Configures the countdown controller to present a start action if the
+// currently-running countdown is aborted.
+
+void countdown_controller_set_abort_action_to_start();
+
+// Configures the countdown controller to present a restart action if the
+// currently-running countdown is aborted.
+
+void countdown_controller_set_abort_action_to_restart();
+
 // Informs the countdown controller that its timer event has occurred. The main
 // application is responsible for handling timer events and forwarding them
 // along to the appropriate controllers.
