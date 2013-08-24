@@ -75,17 +75,14 @@ void click_config_provider(ClickConfig* config[], void* ctx) {
 void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
   if (interval->running) {
     cancel_countdown_tick_timer();
-    // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_abort(interval);
     show_configured_countdown_aborted_view();
     invoke_handler(countdown_handlers.aborted);
   } else {
     invoke_handler(countdown_handlers.started);
-    // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_reset(interval);
     countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
     countdown_view_show_abort();
-    // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_start(interval);
     start_countdown_tick_timer();
   }
