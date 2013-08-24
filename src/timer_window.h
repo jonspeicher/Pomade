@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// timer_window - Displays the main timer window and associated controls
+// timer_window - Initializes and displays the main timer window
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
@@ -11,8 +11,8 @@
 // Initializes the timer window. This will load any necessary resources and lay
 // the window out, but will not display the window.
 
-Window* timer_window_init();
+void timer_window_init(Window* window);
 
 // Pushes the timer window onto the window stack.
 
-void timer_window_push();
+void timer_window_push(Window* window);

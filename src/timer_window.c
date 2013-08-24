@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// timer_window - Displays the main timer window and associated controls
+// timer_window - Initializes and displays the main timer window
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
@@ -10,17 +10,12 @@
 
 #define WINDOW_DEBUG_NAME "timer"
 
-// Define the window itself.
-
-static Window this_window;
-
 // Public functions -----------------------------------------------------------
 
-Window* timer_window_init() {
-  window_init(&this_window, WINDOW_DEBUG_NAME);
-  return &this_window;
+void timer_window_init(Window* window) {
+  window_init(window, WINDOW_DEBUG_NAME);
 }
 
-void timer_window_push() {
-  window_stack_push(&this_window, true);
+void timer_window_push(Window* window) {
+  window_stack_push(window, true);
 }
