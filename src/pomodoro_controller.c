@@ -16,16 +16,28 @@
 
 static Window timer_window;
 
-// TBD: This is going to need to get state feedback about the countdown and
-// whether it completes or is aborted so that it can manage the pomodoro ->
-// break -> long break sequence - JRS 8/20
+// Define the intervals that this controller will use.
 
 static Interval pomodoro;
 
+// Private functions.
+
+void countdown_start_handler();
+void countdown_complete_handler();
+void countdown_abort_handler();
+
+// Public functions -----------------------------------------------------------
+
 void pomodoro_controller_init(AppContextRef ctx) {
+  CountdownHandlers handlers = {
+    .started = countdown_start_handler,
+    .complete = countdown_complete_handler,
+    .aborted = countdown_abort_handler
+  };
   interval_init(&pomodoro, 25, 0);
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
+  countdown_controller_set_countdown_handlers(handlers);
   countdown_controller_set_interval(&pomodoro);
   timer_window_push(&timer_window);
 }
@@ -36,4 +48,15 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
   if (cookie == COUNTDOWN_COOKIE) {
     countdown_controller_timer_event(handle);
   }
+}
+
+// Private functions ----------------------------------------------------------
+
+void countdown_start_handler() {
+}
+
+void countdown_complete_handler() {
+}
+
+void countdown_abort_handler() {
 }
