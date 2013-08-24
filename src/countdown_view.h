@@ -20,10 +20,14 @@ void countdown_view_init(Window* window, ClickConfigProvider provider);
 
 void countdown_view_set_time_remaining_sec(unsigned int seconds);
 
-// Shows the "abort" state of the countdown view.
+// Shows the "start" state of the countdown view.
 
-void countdown_view_show_abort();
+void countdown_view_show_start();
 
 // Shows the "restart" state of the countdown view.
 
 void countdown_view_show_restart();
+
+// Shows the "abort" state of the countdown view.
+
+void countdown_view_show_abort();

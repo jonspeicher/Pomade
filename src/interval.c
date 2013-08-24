@@ -39,5 +39,6 @@ void interval_decrement_by_seconds(Interval* interval, unsigned int seconds) {
   } else {
     interval->time_remaining_sec = 0;
     interval->complete = true;
+    interval->running = false;
   }
 }

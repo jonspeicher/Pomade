@@ -61,12 +61,16 @@ void countdown_view_set_time_remaining_sec(unsigned int seconds) {
   text_layer_set_text(&countdown_text_layer, countdown_string);
 }
 
-void countdown_view_show_abort() {
-  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.abort.bmp);
+void countdown_view_show_start() {
+  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
 }
 
 void countdown_view_show_restart() {
   action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.restart.bmp);
+}
+
+void countdown_view_show_abort() {
+  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.abort.bmp);
 }
 
 // Private functions ----------------------------------------------------------

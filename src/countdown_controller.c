@@ -89,6 +89,7 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
 
   if (interval->complete) {
     invoke_handler(countdown_handlers.complete);
+    countdown_view_show_start();
   } else {
     // TBD: Account for drift here if there's a clean way to do it - JRS 8/19
     start_countdown_tick_timer();
