@@ -70,4 +70,7 @@ void countdown_complete_handler() {
 
 void countdown_abort_handler() {
   vibes_double_pulse();
+  if (current_interval == &rest) {
+    current_interval = &pomodoro;
+  }
 }
