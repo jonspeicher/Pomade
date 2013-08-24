@@ -20,6 +20,8 @@ static Window timer_window;
 // Define the intervals that this controller will use.
 
 static Interval pomodoro;
+static Interval rest;
+static Interval* current_interval;
 
 // Private functions.
 
@@ -35,11 +37,15 @@ void pomodoro_controller_init(AppContextRef ctx) {
     .complete = countdown_complete_handler,
     .aborted = countdown_abort_handler
   };
+
   interval_init(&pomodoro, POMODORO_MINUTES, POMODORO_SECONDS);
+  interval_init(&rest, REST_MINUTES, REST_SECONDS);
+  current_interval = &pomodoro;
+
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
   countdown_controller_set_countdown_handlers(handlers);
-  countdown_controller_set_interval(&pomodoro);
+  countdown_controller_set_interval(current_interval);
   timer_window_push(&timer_window);
 }
 
@@ -54,10 +60,12 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 // Private functions ----------------------------------------------------------
 
 void countdown_start_handler() {
+  countdown_controller_set_interval(current_interval);
 }
 
 void countdown_complete_handler() {
   vibes_long_pulse();
+  current_interval = (current_interval == &pomodoro) ? &rest : &pomodoro;
 }
 
 void countdown_abort_handler() {

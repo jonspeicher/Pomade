@@ -70,6 +70,7 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     countdown_view_show_restart();
     invoke_handler(countdown_handlers.aborted);
   } else {
+    invoke_handler(countdown_handlers.started);
     // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_reset(interval);
     countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
@@ -77,7 +78,6 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_start(interval);
     start_countdown_tick_timer();
-    invoke_handler(countdown_handlers.started);
   }
 }
 
