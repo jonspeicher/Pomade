@@ -25,6 +25,10 @@ static Interval* interval;
 static AppContextRef app_ctx;
 static AppTimerHandle timer;
 
+// Define a structure to hold client countdown event handlers.
+
+static CountdownHandlers countdown_handlers;
+
 // Event handlers.
 
 static void click_config_provider(ClickConfig* config[], void* ctx);
@@ -34,12 +38,17 @@ static void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx);
 
 static void start_countdown_tick_timer();
 static void cancel_countdown_tick_timer();
+static void invoke_handler(CountdownHandler handler);
 
 // Public functions -----------------------------------------------------------
 
 void countdown_controller_init(AppContextRef ctx, Window* window) {
   app_ctx = ctx;
   countdown_view_init(window, click_config_provider);
+}
+
+void countdown_controller_set_countdown_handlers(CountdownHandlers handlers) {
+  countdown_handlers = handlers;
 }
 
 void countdown_controller_set_interval(Interval* new_interval) {
@@ -49,10 +58,6 @@ void countdown_controller_set_interval(Interval* new_interval) {
 
 // Event handlers -------------------------------------------------------------
 
-// TBD: It's probably going to be necessary to pull these up a level and/or
-// hook up some callbacks between this controller and the coordinating
-// controller - JRS 8/20
-
 void click_config_provider(ClickConfig* config[], void* ctx) {
   config[BUTTON_ID_SELECT]->click.handler = toggle_countdown_state_click;
 }
@@ -60,15 +65,20 @@ void click_config_provider(ClickConfig* config[], void* ctx) {
 void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
   if (interval->running) {
     cancel_countdown_tick_timer();
+    // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_abort(interval);
     vibes_double_pulse();
     countdown_view_show_restart();
+    invoke_handler(countdown_handlers.aborted);
   } else {
+    // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_reset(interval);
     countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
     countdown_view_show_abort();
+    // TBD: Consider moving interval state into pomodoro controller - JRS 8/24
     interval_start(interval);
     start_countdown_tick_timer();
+    invoke_handler(countdown_handlers.started);
   }
 }
 
@@ -80,6 +90,7 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
 
   if (interval->complete) {
     vibes_long_pulse();
+    invoke_handler(countdown_handlers.complete);
   } else {
     // TBD: Account for drift here if there's a clean way to do it - JRS 8/19
     start_countdown_tick_timer();
@@ -94,4 +105,8 @@ void start_countdown_tick_timer() {
 
 void cancel_countdown_tick_timer() {
   app_timer_cancel_event(app_ctx, timer);
+}
+
+void invoke_handler(CountdownHandler handler) {
+  if (handler) handler();
 }
