@@ -8,6 +8,7 @@
 
 #include "cookies.h"
 #include "countdown_controller.h"
+#include "pomodoro.h"
 #include "pomodoro_config.h"
 #include "pomodoro_controller.h"
 #include "pomodoro_interval.h"
@@ -16,6 +17,10 @@
 // Define the window that will be given to the controllers for view setup.
 
 static Window timer_window;
+
+// Define a structure to track progress through the pomodoro technique.
+// TBD: Rename this when the old stuff is gutted - JRS 8/26
+static Pomodoro pomodoro_object;
 
 // Define the intervals that this controller will use.
 
