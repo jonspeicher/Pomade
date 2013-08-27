@@ -10,7 +10,6 @@
 #include "countdown_controller.h"
 #include "pomodoro.h"
 #include "pomodoro_controller.h"
-#include "pomodoro_interval.h"
 #include "timer_window.h"
 
 // Define the window that will be given to the controllers for view setup.
