@@ -11,4 +11,5 @@
 void pomodoro_init(Pomodoro* pomodoro) {
   pomodoro_interval_init(&pomodoro->pomodoro, POMODORO_MINUTES, POMODORO_SECONDS, true);
   pomodoro_interval_init(&pomodoro->rest, REST_MINUTES, REST_SECONDS, false);
+  pomodoro->current_segment = &pomodoro->pomodoro;
 }

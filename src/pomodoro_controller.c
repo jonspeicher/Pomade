@@ -37,10 +37,6 @@ void pomodoro_controller_init(AppContextRef ctx) {
   };
 
   pomodoro_init(&pomodoro);
-  // TBD Next step is to move current_segment manipulation into Pomodoro and
-  // put it behind functions like abort and next as appropriate, then change
-  // internals of Pomodoro to use Segments, then add stats/etc - JRS 8/26
-  pomodoro.current_segment = &pomodoro.pomodoro;
 
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
