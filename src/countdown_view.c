@@ -95,7 +95,9 @@ void load_and_add_view(Window* window, ClickConfigProvider provider) {
 }
 
 void remove_and_unload_view(Window* window) {
+  layer_remove_from_parent(&countdown_text_layer.layer);
   action_bar_layer_remove_from_window(&action_bar);
+
   heap_bitmap_deinit(&icons.start);
   heap_bitmap_deinit(&icons.restart);
   heap_bitmap_deinit(&icons.abort);
