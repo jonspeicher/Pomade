@@ -43,6 +43,7 @@ void pomodoro_controller_init(AppContextRef ctx) {
     .aborted = countdown_abort_handler
   };
 
+  pomodoro_init(&pomodoro_object);
   pomodoro_interval_init(&pomodoro, POMODORO_MINUTES, POMODORO_SECONDS, true);
   pomodoro_interval_init(&rest, REST_MINUTES, REST_SECONDS, false);
   current_interval = &pomodoro;

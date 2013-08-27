@@ -11,3 +11,6 @@
 typedef struct {
 } Pomodoro;
 
+// Initializes the pomodoro technique structure.
+
+void pomodoro_init(Pomodoro* pomodoro);
