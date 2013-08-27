@@ -37,15 +37,15 @@ void pomodoro_controller_init(AppContextRef ctx) {
   };
 
   pomodoro_init(&pomodoro);
-  // TBD Next step is to move current_interval manipulation into Pomodoro and
+  // TBD Next step is to move current_segment manipulation into Pomodoro and
   // put it behind functions like abort and next as appropriate, then change
   // internals of Pomodoro to use Segments, then add stats/etc - JRS 8/26
-  pomodoro.current_interval = &pomodoro.pomodoro;
+  pomodoro.current_segment = &pomodoro.pomodoro;
 
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
   countdown_controller_set_countdown_handlers(handlers);
-  countdown_controller_set_interval(&pomodoro.current_interval->interval);
+  countdown_controller_set_interval(&pomodoro.current_segment->interval);
   timer_window_push(&timer_window);
 }
 
@@ -60,8 +60,8 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 // Private functions ----------------------------------------------------------
 
 void countdown_start_handler() {
-  countdown_controller_set_interval(&pomodoro.current_interval->interval);
-  if (pomodoro.current_interval->restart_on_abort) {
+  countdown_controller_set_interval(&pomodoro.current_segment->interval);
+  if (pomodoro.current_segment->restart_on_abort) {
     countdown_controller_set_abort_action_to_restart();
   } else {
     countdown_controller_set_abort_action_to_start();
@@ -70,13 +70,13 @@ void countdown_start_handler() {
 
 void countdown_complete_handler() {
   vibes_long_pulse();
-  pomodoro.current_interval = (pomodoro.current_interval == &pomodoro.pomodoro) ?
+  pomodoro.current_segment = (pomodoro.current_segment == &pomodoro.pomodoro) ?
     &pomodoro.rest: &pomodoro.pomodoro;
 }
 
 void countdown_abort_handler() {
   vibes_double_pulse();
-  if (pomodoro.current_interval == &pomodoro.rest) {
-    pomodoro.current_interval = &pomodoro.pomodoro;
+  if (pomodoro.current_segment == &pomodoro.rest) {
+    pomodoro.current_segment = &pomodoro.pomodoro;
   }
 }
