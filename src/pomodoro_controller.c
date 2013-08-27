@@ -9,7 +9,6 @@
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "pomodoro.h"
-#include "pomodoro_config.h"
 #include "pomodoro_controller.h"
 #include "pomodoro_interval.h"
 #include "timer_window.h"
@@ -19,13 +18,11 @@
 static Window timer_window;
 
 // Define a structure to track progress through the pomodoro technique.
-// TBD: Rename this when the old stuff is gutted - JRS 8/26
-static Pomodoro pomodoro_object;
+
+static Pomodoro pomodoro;
 
 // Define the intervals that this controller will use.
 
-static PomodoroInterval pomodoro;
-static PomodoroInterval rest;
 static PomodoroInterval* current_interval;
 
 // Private functions.
@@ -43,10 +40,8 @@ void pomodoro_controller_init(AppContextRef ctx) {
     .aborted = countdown_abort_handler
   };
 
-  pomodoro_init(&pomodoro_object);
-  pomodoro_interval_init(&pomodoro, POMODORO_MINUTES, POMODORO_SECONDS, true);
-  pomodoro_interval_init(&rest, REST_MINUTES, REST_SECONDS, false);
-  current_interval = &pomodoro;
+  pomodoro_init(&pomodoro);
+  current_interval = &pomodoro.pomodoro;
 
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
@@ -76,12 +71,12 @@ void countdown_start_handler() {
 
 void countdown_complete_handler() {
   vibes_long_pulse();
-  current_interval = (current_interval == &pomodoro) ? &rest : &pomodoro;
+  current_interval = (current_interval == &pomodoro.pomodoro) ? &pomodoro.rest: &pomodoro.pomodoro;
 }
 
 void countdown_abort_handler() {
   vibes_double_pulse();
-  if (current_interval == &rest) {
-    current_interval = &pomodoro;
+  if (current_interval == &pomodoro.rest) {
+    current_interval = &pomodoro.pomodoro;
   }
 }

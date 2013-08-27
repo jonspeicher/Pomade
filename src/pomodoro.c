@@ -5,6 +5,10 @@
 // ----------------------------------------------------------------------------
 
 #include "pomodoro.h"
+#include "pomodoro_config.h"
+#include "pomodoro_interval.h"
 
 void pomodoro_init(Pomodoro* pomodoro) {
+  pomodoro_interval_init(&pomodoro->pomodoro, POMODORO_MINUTES, POMODORO_SECONDS, true);
+  pomodoro_interval_init(&pomodoro->rest, REST_MINUTES, REST_SECONDS, false);
 }

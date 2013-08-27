@@ -6,9 +6,13 @@
 
 #pragma once
 
+#include "pomodoro_interval.h"
+
 // Defines a structure type to hold the pomodoro technique segments.
 
 typedef struct {
+  PomodoroInterval pomodoro;
+  PomodoroInterval rest; // These will be interval eventually - JRS 8/27
 } Pomodoro;
 
 // Initializes the pomodoro technique structure.
