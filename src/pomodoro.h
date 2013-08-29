@@ -11,7 +11,7 @@
 // Defines a structure type to hold the pomodoro technique segments.
 
 typedef struct {
-  PomodoroInterval* current_segment;
+  PomodoroInterval* this_segment;
   PomodoroInterval pomodoro;
   PomodoroInterval rest; // TBD These will be interval eventually - JRS 8/27
 } Pomodoro;

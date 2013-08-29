@@ -40,7 +40,7 @@ void pomodoro_controller_init(AppContextRef ctx) {
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
   countdown_controller_set_countdown_handlers(handlers);
-  countdown_controller_set_interval(&pomodoro.current_segment->interval);
+  countdown_controller_set_interval(&pomodoro.this_segment->interval);
   timer_window_push(&timer_window);
 }
 
@@ -55,8 +55,8 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 // Private functions ----------------------------------------------------------
 
 void countdown_start_handler() {
-  countdown_controller_set_interval(&pomodoro.current_segment->interval);
-  countdown_controller_restart_on_abort(pomodoro.current_segment->restart_on_abort);
+  countdown_controller_set_interval(&pomodoro.this_segment->interval);
+  countdown_controller_restart_on_abort(pomodoro.this_segment->restart_on_abort);
 }
 
 void countdown_complete_handler() {

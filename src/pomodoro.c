@@ -11,16 +11,16 @@
 void pomodoro_init(Pomodoro* pomodoro) {
   pomodoro_interval_init(&pomodoro->pomodoro, POMODORO_MINUTES, POMODORO_SECONDS, true);
   pomodoro_interval_init(&pomodoro->rest, REST_MINUTES, REST_SECONDS, false);
-  pomodoro->current_segment = &pomodoro->pomodoro;
+  pomodoro->this_segment = &pomodoro->pomodoro;
 }
 
 void pomodoro_complete_segment(Pomodoro* pomodoro) {
-  pomodoro->current_segment = (pomodoro->current_segment == &pomodoro->pomodoro) ?
+  pomodoro->this_segment = (pomodoro->this_segment == &pomodoro->pomodoro) ?
     &pomodoro->rest: &pomodoro->pomodoro;
 }
 
 void pomodoro_abort_segment(Pomodoro* pomodoro) {
-  if (pomodoro->current_segment == &pomodoro->rest) {
-    pomodoro->current_segment = &pomodoro->pomodoro;
+  if (pomodoro->this_segment == &pomodoro->rest) {
+    pomodoro->this_segment = &pomodoro->pomodoro;
   }
 }
