@@ -14,23 +14,23 @@ typedef enum {
   POMODORO_SEGMENT_TYPE_POMODORO = 0,
   POMODORO_SEGMENT_TYPE_BREAK,
   POMODORO_SEGMENT_TYPE_COUNT
-} SegmentType;
+} PomodoroSegmentType;
 
 // Defines a type to hold a pomodoro technique segment.
 
 typedef struct {
   Interval interval;
   bool restart_on_abort;
-} Segment;
+} PomodoroSegment;
 
-// Defines a structure type to hold the pomodoro technique segment sequence.
+// Defines a type to hold the pomodoro technique segment sequence.
 
 typedef struct {
-  Segment* this_segment;
-  Segment segments[POMODORO_SEGMENT_TYPE_COUNT];
+  PomodoroSegment* this_segment;
+  PomodoroSegment segments[POMODORO_SEGMENT_TYPE_COUNT];
 } Pomodoro;
 
-// Initializes the pomodoro technique structure.
+// Initializes the pomodoro technique sequence structure.
 
 void pomodoro_init(Pomodoro* pomodoro);
 
