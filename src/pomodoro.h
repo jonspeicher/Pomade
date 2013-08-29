@@ -19,6 +19,7 @@ typedef enum {
 // Defines a type to hold a pomodoro technique segment.
 
 typedef struct {
+  PomodoroSegmentType type;
   Interval interval;
   bool restart_on_abort;
 } PomodoroSegment;
