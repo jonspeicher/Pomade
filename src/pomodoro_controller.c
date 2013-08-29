@@ -56,11 +56,7 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 
 void countdown_start_handler() {
   countdown_controller_set_interval(&pomodoro.current_segment->interval);
-  if (pomodoro.current_segment->restart_on_abort) {
-    countdown_controller_set_abort_action_to_restart();
-  } else {
-    countdown_controller_set_abort_action_to_start();
-  }
+  countdown_controller_restart_on_abort(pomodoro.current_segment->restart_on_abort);
 }
 
 void countdown_complete_handler() {

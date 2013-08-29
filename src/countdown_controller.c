@@ -58,12 +58,8 @@ void countdown_controller_set_interval(Interval* new_interval) {
   countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
 }
 
-void countdown_controller_set_abort_action_to_start() {
-  show_restart_on_abort = false;
-}
-
-void countdown_controller_set_abort_action_to_restart() {
-  show_restart_on_abort = true;
+void countdown_controller_restart_on_abort(bool restart_on_abort) {
+  show_restart_on_abort = restart_on_abort;
 }
 
 // Event handlers -------------------------------------------------------------
