@@ -6,14 +6,21 @@
 
 #pragma once
 
-#include "pomodoro_interval.h"
+#include <stdbool.h>
 
-// Defines a structure type to hold the pomodoro technique segments.
+// Defines a structure type to hold a pomodoro technique segment.
 
 typedef struct {
-  PomodoroInterval* this_segment;
-  PomodoroInterval pomodoro;
-  PomodoroInterval rest; // TBD These will be interval eventually - JRS 8/27
+  Interval interval;
+  bool restart_on_abort;
+} Segment;
+
+// Defines a structure type to hold the pomodoro technique segment sequence.
+
+typedef struct {
+  Segment* this_segment;
+  Segment pomodoro;
+  Segment rest;
 } Pomodoro;
 
 // Initializes the pomodoro technique structure.
