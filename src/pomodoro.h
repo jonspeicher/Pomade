@@ -8,7 +8,15 @@
 
 #include <stdbool.h>
 
-// Defines a structure type to hold a pomodoro technique segment.
+// Defines a type to hold the various pomodoro technique segment types.
+
+typedef enum {
+  POMODORO_SEGMENT_TYPE_POMODORO = 0,
+  POMODORO_SEGMENT_TYPE_BREAK,
+  POMODORO_SEGMENT_TYPE_COUNT
+} SegmentType;
+
+// Defines a type to hold a pomodoro technique segment.
 
 typedef struct {
   Interval interval;
@@ -19,8 +27,7 @@ typedef struct {
 
 typedef struct {
   Segment* this_segment;
-  Segment pomodoro;
-  Segment rest;
+  Segment segments[POMODORO_SEGMENT_TYPE_COUNT];
 } Pomodoro;
 
 // Initializes the pomodoro technique structure.
