@@ -21,6 +21,11 @@ typedef struct {
 void pomodoro_init(Pomodoro* pomodoro);
 
 // Completes the current pomodoro technique segment and causes an advance to
-// the next segment in the pomodoro technique sequence.
+// the next appropriate segment in the pomodoro technique sequence.
 
 void pomodoro_complete_segment(Pomodoro* pomodoro);
+
+// Aborts the current pomodoro tecnique segment and causes an advance to the
+// next appropriate segment in the pomodoro technique sequence.
+
+void pomodoro_abort_segment(Pomodoro* pomodoro);

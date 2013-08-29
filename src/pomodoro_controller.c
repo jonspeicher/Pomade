@@ -70,7 +70,5 @@ void countdown_complete_handler() {
 
 void countdown_abort_handler() {
   vibes_double_pulse();
-  if (pomodoro.current_segment == &pomodoro.rest) {
-    pomodoro.current_segment = &pomodoro.pomodoro;
-  }
+  pomodoro_abort_segment(&pomodoro);
 }

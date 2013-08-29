@@ -18,3 +18,9 @@ void pomodoro_complete_segment(Pomodoro* pomodoro) {
   pomodoro->current_segment = (pomodoro->current_segment == &pomodoro->pomodoro) ?
     &pomodoro->rest: &pomodoro->pomodoro;
 }
+
+void pomodoro_abort_segment(Pomodoro* pomodoro) {
+  if (pomodoro->current_segment == &pomodoro->rest) {
+    pomodoro->current_segment = &pomodoro->pomodoro;
+  }
+}
