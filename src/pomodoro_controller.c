@@ -65,8 +65,7 @@ void countdown_start_handler() {
 
 void countdown_complete_handler() {
   vibes_long_pulse();
-  pomodoro.current_segment = (pomodoro.current_segment == &pomodoro.pomodoro) ?
-    &pomodoro.rest: &pomodoro.pomodoro;
+  pomodoro_complete_segment(&pomodoro);
 }
 
 void countdown_abort_handler() {

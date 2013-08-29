@@ -19,3 +19,8 @@ typedef struct {
 // Initializes the pomodoro technique structure.
 
 void pomodoro_init(Pomodoro* pomodoro);
+
+// Completes the current pomodoro technique segment and causes an advance to
+// the next segment in the pomodoro technique sequence.
+
+void pomodoro_complete_segment(Pomodoro* pomodoro);

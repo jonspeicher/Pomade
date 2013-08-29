@@ -13,3 +13,8 @@ void pomodoro_init(Pomodoro* pomodoro) {
   pomodoro_interval_init(&pomodoro->rest, REST_MINUTES, REST_SECONDS, false);
   pomodoro->current_segment = &pomodoro->pomodoro;
 }
+
+void pomodoro_complete_segment(Pomodoro* pomodoro) {
+  pomodoro->current_segment = (pomodoro->current_segment == &pomodoro->pomodoro) ?
+    &pomodoro->rest: &pomodoro->pomodoro;
+}
