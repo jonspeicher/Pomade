@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// pomodoro_controller - Implements the Pomodoro Technique sequence and timing
+// pomodoro_controller - Implements the pomodoro technique sequence and timing
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
@@ -8,20 +8,17 @@
 
 #include "cookies.h"
 #include "countdown_controller.h"
-#include "pomodoro_config.h"
+#include "pomodoro.h"
 #include "pomodoro_controller.h"
-#include "pomodoro_interval.h"
 #include "timer_window.h"
 
 // Define the window that will be given to the controllers for view setup.
 
 static Window timer_window;
 
-// Define the intervals that this controller will use.
+// Define a variable to track progress through the pomodoro technique.
 
-static PomodoroInterval pomodoro;
-static PomodoroInterval rest;
-static PomodoroInterval* current_interval;
+static Pomodoro pomodoro;
 
 // Private functions.
 
@@ -38,14 +35,12 @@ void pomodoro_controller_init(AppContextRef ctx) {
     .aborted = countdown_abort_handler
   };
 
-  pomodoro_interval_init(&pomodoro, POMODORO_MINUTES, POMODORO_SECONDS, true);
-  pomodoro_interval_init(&rest, REST_MINUTES, REST_SECONDS, false);
-  current_interval = &pomodoro;
+  pomodoro_init(&pomodoro);
 
   timer_window_init(&timer_window);
   countdown_controller_init(ctx, &timer_window);
   countdown_controller_set_countdown_handlers(handlers);
-  countdown_controller_set_interval(&current_interval->interval);
+  countdown_controller_set_interval(&pomodoro.this_segment->interval);
   timer_window_push(&timer_window);
 }
 
@@ -60,22 +55,16 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 // Private functions ----------------------------------------------------------
 
 void countdown_start_handler() {
-  countdown_controller_set_interval(&current_interval->interval);
-  if (current_interval->restart_on_abort) {
-    countdown_controller_set_abort_action_to_restart();
-  } else {
-    countdown_controller_set_abort_action_to_start();
-  }
+  countdown_controller_set_interval(&pomodoro.this_segment->interval);
+  countdown_controller_restart_on_abort(pomodoro.this_segment->restart_on_abort);
 }
 
 void countdown_complete_handler() {
   vibes_long_pulse();
-  current_interval = (current_interval == &pomodoro) ? &rest : &pomodoro;
+  pomodoro_complete_segment(&pomodoro);
 }
 
 void countdown_abort_handler() {
   vibes_double_pulse();
-  if (current_interval == &rest) {
-    current_interval = &pomodoro;
-  }
+  pomodoro_abort_segment(&pomodoro);
 }
