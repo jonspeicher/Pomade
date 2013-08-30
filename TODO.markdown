@@ -18,3 +18,5 @@
     * Drift mitigation could happen in the timer handler in the countdown
       controller where the timer is restarted at the end of the handler if
       the countdown hasn't elapsed
+* The code isn't bulletproof
+    * Null pointers aren't checked
