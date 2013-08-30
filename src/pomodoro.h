@@ -7,6 +7,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include "interval.h"
 
 // Defines a type to hold the various pomodoro technique segment types.
 
