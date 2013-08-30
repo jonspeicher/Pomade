@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// pomodoro_controller - Implements the Pomodoro Technique sequence and timing
+// pomodoro_controller - Implements the pomodoro technique sequence and timing
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// pomodoro - Defines a model to track progress through the Pomodoro Technique
+// pomodoro - Defines a model to track progress through the pomodoro technique
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
@@ -27,6 +27,7 @@ typedef struct {
 // Defines a type to hold the pomodoro technique segment sequence.
 
 typedef struct {
+  unsigned int this_segment_index;
   PomodoroSegment* this_segment;
   PomodoroSegment segments[POMODORO_SEGMENT_TYPE_COUNT];
 } Pomodoro;

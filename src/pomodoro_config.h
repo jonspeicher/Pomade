@@ -11,7 +11,7 @@
 #define POMODORO_MINUTES 0
 #define POMODORO_SECONDS 10
 
-// Defines the duration of a rest.
+// Defines the duration of a break.
 
-#define REST_MINUTES 0
-#define REST_SECONDS 5
+#define BREAK_MINUTES 0
+#define BREAK_SECONDS 5
