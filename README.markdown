@@ -1,7 +1,9 @@
 # Pomade
 
 Pomodoro tracking on the wrist. Functional now, with hopefully more to come.
-See `TODO.markdown` for a list of planned additions and technical desirements.
+See `TODO.markdown` for a list of planned additions and technical desirements
+and the release notes for a list of features and functionality that probably
+belongs here eventually.
 
 ## Downloading
 
@@ -20,4 +22,5 @@ Jon Speicher (jon.speicher@gmail.com)
 ## License
 
 Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
+
 Licensed under the MIT license: http://opensource.org/licenses/MIT
