@@ -10,6 +10,7 @@
 #include "countdown_controller.h"
 #include "pomodoro.h"
 #include "pomodoro_controller.h"
+#include "segment_view.h"
 #include "timer_window.h"
 
 // Define the window that will be given to the controllers for view setup.
@@ -38,9 +39,14 @@ void pomodoro_controller_init(AppContextRef ctx) {
   pomodoro_init(&pomodoro);
 
   timer_window_init(&timer_window);
+
   countdown_controller_init(ctx, &timer_window);
   countdown_controller_set_countdown_handlers(handlers);
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
+
+  segment_view_init(&timer_window);
+  segment_view_show_segment_type(pomodoro.this_segment->type);
+
   timer_window_push(&timer_window);
 }
 
@@ -57,6 +63,7 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 void countdown_start_handler() {
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
   countdown_controller_restart_on_abort(pomodoro.this_segment->restart_on_abort);
+  segment_view_show_segment_type(pomodoro.this_segment->type);
 }
 
 void countdown_complete_handler() {
