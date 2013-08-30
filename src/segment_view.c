@@ -44,11 +44,11 @@ void segment_view_show_segment_type(PomodoroSegmentType type) {
 
 void load_and_add_view(Window* window) {
   // TBD: Is there a nicer way to do this? - JRS 8/16
-  text_layer_init(&segment_type_text_layer, GRect(0, 40,
-    window->layer.frame.size.w - ACTION_BAR_WIDTH, window->layer.frame.size.h));
+  text_layer_init(&segment_type_text_layer, GRect(0, 90,
+    window->layer.frame.size.w - ACTION_BAR_WIDTH, 40));
   text_layer_set_text_alignment(&segment_type_text_layer, GTextAlignmentCenter);
   text_layer_set_font(&segment_type_text_layer,
-    fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
+    fonts_get_system_font(FONT_KEY_GOTHIC_28));
   layer_add_child(&window->layer, &segment_type_text_layer.layer);
 }
 

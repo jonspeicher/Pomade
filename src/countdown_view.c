@@ -86,8 +86,8 @@ void load_and_add_view(Window* window, ClickConfigProvider provider) {
   action_bar_layer_set_click_config_provider(&action_bar, provider);
 
   // TBD: Is there a nicer way to do this? - JRS 8/16
-  text_layer_init(&countdown_text_layer, GRect(0, 10,
-    window->layer.frame.size.w - ACTION_BAR_WIDTH, window->layer.frame.size.h));
+  text_layer_init(&countdown_text_layer, GRect(0, 20,
+    window->layer.frame.size.w - ACTION_BAR_WIDTH, 55));
   text_layer_set_text_alignment(&countdown_text_layer, GTextAlignmentCenter);
   text_layer_set_font(&countdown_text_layer,
     fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));
