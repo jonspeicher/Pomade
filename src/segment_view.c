@@ -33,6 +33,7 @@ void segment_view_init(Window* window) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
+  // TBD: Make this a lookup table - JRS 8/30
   if (type == POMODORO_SEGMENT_TYPE_POMODORO) {
     text_layer_set_text(&segment_type_text_layer, "pomodoro");
   } else if (type == POMODORO_SEGMENT_TYPE_BREAK) {
