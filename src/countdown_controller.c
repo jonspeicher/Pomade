@@ -37,8 +37,8 @@ static void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx);
 
 // Private functions.
 
-static void start_countdown_tick_timer();
-static void cancel_countdown_tick_timer();
+static void start_countdown_tick_oneshot_timer();
+static void cancel_countdown_tick_oneshot_timer();
 static void invoke_handler(CountdownHandler handler);
 static void show_configured_countdown_aborted_view();
 
@@ -70,7 +70,7 @@ void click_config_provider(ClickConfig* config[], void* ctx) {
 
 void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
   if (interval->running) {
-    cancel_countdown_tick_timer();
+    cancel_countdown_tick_oneshot_timer();
     interval_abort(interval);
     show_configured_countdown_aborted_view();
     invoke_handler(countdown_handlers.aborted);
@@ -80,7 +80,7 @@ void toggle_countdown_state_click(ClickRecognizerRef recog, void* ctx) {
     countdown_view_set_time_remaining_sec(interval->time_remaining_sec);
     countdown_view_show_abort();
     interval_start(interval);
-    start_countdown_tick_timer();
+    start_countdown_tick_oneshot_timer();
   }
 }
 
@@ -94,17 +94,17 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
     invoke_handler(countdown_handlers.complete);
     countdown_view_show_start();
   } else {
-    start_countdown_tick_timer();
+    start_countdown_tick_oneshot_timer();
   }
 }
 
 // Private functions ----------------------------------------------------------
 
-void start_countdown_tick_timer() {
+void start_countdown_tick_oneshot_timer() {
   timer = app_timer_send_event(app_ctx, COUNTDOWN_TICK_MS, COUNTDOWN_COOKIE);
 }
 
-void cancel_countdown_tick_timer() {
+void cancel_countdown_tick_oneshot_timer() {
   app_timer_cancel_event(app_ctx, timer);
 }
 
