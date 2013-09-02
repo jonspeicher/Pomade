@@ -40,13 +40,18 @@ void pomodoro_init(Pomodoro* pomodoro) {
     segment_init(&pomodoro->segments[i], POMODORO_SEGMENT_CONFIG_TABLE[i]);
   }
   set_this_segment(pomodoro, POMODORO_SEGMENT_INDEX_POMODORO);
+  pomodoro->pomodoros_completed = 0;
 }
 
 void pomodoro_complete_segment(Pomodoro* pomodoro) {
-  // TBD This needs to change for long breaks - JRS 9/1
-  unsigned int index =
-    (pomodoro->this_segment_index + 1) % POMODORO_SEGMENT_TYPE_COUNT;
-  set_this_segment(pomodoro, index);
+  if (pomodoro->this_segment->type == POMODORO_SEGMENT_TYPE_BREAK) {
+    set_this_segment(pomodoro, POMODORO_SEGMENT_INDEX_POMODORO);
+  } else if (++pomodoro->pomodoros_completed >= POMODORO_COUNT_FOR_LONG_BREAK) {
+    set_this_segment(pomodoro, POMODORO_SEGMENT_INDEX_LONG_BREAK);
+    pomodoro->pomodoros_completed = 0;
+  } else {
+    set_this_segment(pomodoro, POMODORO_SEGMENT_INDEX_SHORT_BREAK);
+  }
 }
 
 void pomodoro_abort_segment(Pomodoro* pomodoro) {

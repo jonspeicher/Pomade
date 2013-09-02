@@ -42,6 +42,7 @@ typedef struct {
   unsigned int this_segment_index;
   PomodoroSegment* this_segment;
   PomodoroSegment segments[POMODORO_SEGMENT_INDEX_COUNT];
+  unsigned int pomodoros_completed;
 } Pomodoro;
 
 // Initializes the pomodoro technique sequence structure.
