@@ -24,7 +24,8 @@ typedef struct {
 
 static const PomodoroSegmentConfig POMODORO_SEGMENT_CONFIG_TABLE[] = {
   {POMODORO_SEGMENT_TYPE_POMODORO, POMODORO_MINUTES, POMODORO_SECONDS, true},
-  {POMODORO_SEGMENT_TYPE_BREAK, SHORT_BREAK_MINUTES, SHORT_BREAK_SECONDS, false}
+  {POMODORO_SEGMENT_TYPE_BREAK, SHORT_BREAK_MINUTES, SHORT_BREAK_SECONDS, false},
+  {POMODORO_SEGMENT_TYPE_BREAK, LONG_BREAK_MINUTES, LONG_BREAK_SECONDS, false}
 };
 
 // Private functions.
@@ -35,13 +36,14 @@ void set_this_segment(Pomodoro* pomodoro, unsigned int index);
 // Public functions -----------------------------------------------------------
 
 void pomodoro_init(Pomodoro* pomodoro) {
-  for (unsigned int i = 0; i < POMODORO_SEGMENT_TYPE_COUNT; i++) {
+  for (unsigned int i = 0; i < POMODORO_SEGMENT_INDEX_COUNT; i++) {
     segment_init(&pomodoro->segments[i], POMODORO_SEGMENT_CONFIG_TABLE[i]);
   }
-  set_this_segment(pomodoro, POMODORO_SEGMENT_TYPE_POMODORO);
+  set_this_segment(pomodoro, POMODORO_SEGMENT_INDEX_POMODORO);
 }
 
 void pomodoro_complete_segment(Pomodoro* pomodoro) {
+  // TBD This needs to change for long breaks - JRS 9/1
   unsigned int index =
     (pomodoro->this_segment_index + 1) % POMODORO_SEGMENT_TYPE_COUNT;
   set_this_segment(pomodoro, index);
@@ -49,7 +51,7 @@ void pomodoro_complete_segment(Pomodoro* pomodoro) {
 
 void pomodoro_abort_segment(Pomodoro* pomodoro) {
   if (pomodoro->this_segment->type == POMODORO_SEGMENT_TYPE_BREAK) {
-    set_this_segment(pomodoro, POMODORO_SEGMENT_TYPE_POMODORO);
+    set_this_segment(pomodoro, POMODORO_SEGMENT_INDEX_POMODORO);
   }
 }
 
