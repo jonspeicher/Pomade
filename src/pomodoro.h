@@ -19,18 +19,30 @@ typedef enum {
 
 // Defines a type to hold a pomodoro technique segment.
 
+// TBD: This should probably be an opaque struct at this point - JRS 9/1
+
 typedef struct {
   PomodoroSegmentType type;
   Interval interval;
   bool restart_on_abort;
 } PomodoroSegment;
 
+// Defines a type to hold the indexes of the pomodoro technique segments.
+
+typedef enum {
+  POMODORO_SEGMENT_INDEX_POMODORO = 0,
+  POMODORO_SEGMENT_INDEX_SHORT_BREAK,
+  POMODORO_SEGMENT_INDEX_LONG_BREAK,
+  POMODORO_SEGMENT_INDEX_COUNT
+} PomodoroSegmentIndex;
+
 // Defines a type to hold the pomodoro technique segment sequence.
 
 typedef struct {
   unsigned int this_segment_index;
   PomodoroSegment* this_segment;
-  PomodoroSegment segments[POMODORO_SEGMENT_TYPE_COUNT];
+  PomodoroSegment segments[POMODORO_SEGMENT_INDEX_COUNT];
+  unsigned int pomodoros_completed;
 } Pomodoro;
 
 // Initializes the pomodoro technique sequence structure.
