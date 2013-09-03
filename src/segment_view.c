@@ -83,9 +83,9 @@ void update_pomodoro_count_layer(Layer* layer, GContext* ctx) {
   // TBD: This should probably be set from outside - JRS 9/1
   for (unsigned int i = 0; i < POMODORO_COUNT_FOR_LONG_BREAK; i++) {
     if (i < pomodoros_completed) {
-      graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
-    } else {
       graphics_fill_circle(ctx, GPoint((i + 1) * span, 20), 5);
+    } else {
+      graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
     }
   }
 }
