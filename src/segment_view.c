@@ -7,6 +7,7 @@
 #include <pebble_os.h>
 #include <pebble_fonts.h>
 
+#include "pomodoro_config.h"
 #include "segment_view.h"
 
 // Define the various user interface elements comprising this view.
@@ -22,6 +23,7 @@ static WindowHandler previous_unload_handler;
 
 static void load_and_add_view(Window* window);
 static void remove_and_unload_view(Window* window);
+static void update_pomodoro_count_layer(Layer* layer, GContext* ctx);
 
 // Public functions -----------------------------------------------------------
 
@@ -44,11 +46,6 @@ void segment_view_show_segment_type(PomodoroSegmentType type) {
 
 // Private functions ----------------------------------------------------------
 
-void update_pomodoro_count_layer(Layer* layer, GContext* ctx) {
-  graphics_context_set_stroke_color(ctx, GColorBlack);
-  graphics_draw_circle(ctx, GPoint(20, 20), 5);
-}
-
 void load_and_add_view(Window* window) {
   unsigned int width = window->layer.frame.size.w - ACTION_BAR_WIDTH;
 
@@ -67,5 +64,15 @@ void remove_and_unload_view(Window* window) {
   layer_remove_from_parent(&segment_type_text_layer.layer);
   if (previous_unload_handler) {
     previous_unload_handler(window);
+  }
+}
+
+void update_pomodoro_count_layer(Layer* layer, GContext* ctx) {
+  unsigned int span = layer->frame.size.w / (POMODORO_COUNT_FOR_LONG_BREAK + 1);
+
+  graphics_context_set_stroke_color(ctx, GColorBlack);
+  // TBD: This should probably be set from outside - JRS 9/1
+  for (unsigned int i = 0; i < POMODORO_COUNT_FOR_LONG_BREAK; i++) {
+    graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
   }
 }
