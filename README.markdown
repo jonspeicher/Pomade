@@ -37,10 +37,14 @@ technique.
   (▶) is displayed in the action bar.
   
 * To cancel a pomodoro or a break, press the "select" button when the cancel 
-  icon (X) is displayed in the action bar.
+  icon (X) is displayed in the action bar. Pomade will produce two quick
+  vibrations.
   
 * To restart a cancelled pomodoro, press the "select" button when the restart
   icon (↺) is displayed in the action bar.
+
+When a pomodoro or break completes, Pomade will produce a single, long
+vibration and show `0:00` to indicate that the segment is complete.
 
 Pomade won't allow you to proceed to a break if you abort your in-progress
 pomodoro unless you then restart and successfully complete that pomodoro, but
