@@ -61,9 +61,11 @@ void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
 // Private functions ----------------------------------------------------------
 
 void countdown_start_handler() {
+  pomodoro_start_segment(&pomodoro);
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
   countdown_controller_restart_on_abort(pomodoro.this_segment->restart_on_abort);
   segment_view_show_segment_type(pomodoro.this_segment->type);
+  segment_view_set_pomodoros_completed(pomodoro.pomodoros_completed);
 }
 
 void countdown_complete_handler() {

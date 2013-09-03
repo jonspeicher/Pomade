@@ -49,6 +49,10 @@ typedef struct {
 
 void pomodoro_init(Pomodoro* pomodoro);
 
+// Starts the current pomodoro technique segment.
+
+void pomodoro_start_segment(Pomodoro* pomodoro);
+
 // Completes the current pomodoro technique segment and causes an advance to
 // the next appropriate segment in the pomodoro technique sequence.
 
