@@ -50,16 +50,15 @@ void update_pomodoro_count_layer(Layer* layer, GContext* ctx) {
 }
 
 void load_and_add_view(Window* window) {
-  // TBD: Is there a nicer way to do this? - JRS 8/16
-  text_layer_init(&segment_type_text_layer, GRect(0, 90,
-    window->layer.frame.size.w - ACTION_BAR_WIDTH, 40));
+  unsigned int width = window->layer.frame.size.w - ACTION_BAR_WIDTH;
+
+  text_layer_init(&segment_type_text_layer, GRect(0, 90, width, 40));
   text_layer_set_text_alignment(&segment_type_text_layer, GTextAlignmentCenter);
   text_layer_set_font(&segment_type_text_layer,
     fonts_get_system_font(FONT_KEY_GOTHIC_28));
   layer_add_child(&window->layer, &segment_type_text_layer.layer);
 
-  layer_init(&pomodoro_count_layer, GRect(0, 50,
-    window->layer.frame.size.w - ACTION_BAR_WIDTH, 40));
+  layer_init(&pomodoro_count_layer, GRect(0, 50, width, 40));
   layer_set_update_proc(&pomodoro_count_layer, update_pomodoro_count_layer);
   layer_add_child(&window->layer, &pomodoro_count_layer);
 }
