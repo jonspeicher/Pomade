@@ -47,9 +47,9 @@ When a pomodoro or break completes, Pomade will produce a single, long
 vibration and show `0:00` to indicate that the segment is complete.
 
 Pomade won't allow you to proceed to a break if you abort your in-progress
-pomodoro unless you then restart and successfully complete that pomodoro, but
-it will allow you to abort a break and proceed directly to the next pomodoro if
-you so desire.
+pomodoro unless you then restart and successfully complete that pomodoro. It
+will allow you to abort a break and proceed directly to the next pomodoro if
+you so desire, however.
 
 After every fourth successfully-completed pomodoro, Pomade will present a "long
 break" instead of the normal break duration. This long break may be aborted to
