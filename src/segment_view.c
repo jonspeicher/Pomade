@@ -7,7 +7,7 @@
 #include <pebble_os.h>
 #include <pebble_fonts.h>
 
-#include "pomodoro_config.h"
+#include "pomodoro_config.h" // TBD: This can be removed if passed in - JRS 9/2
 #include "segment_view.h"
 
 // Define a variable to hold the count of pomodoros completed.
