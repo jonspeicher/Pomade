@@ -65,7 +65,7 @@ void load_and_add_view(Window* window) {
     fonts_get_system_font(FONT_KEY_GOTHIC_28));
   layer_add_child(&window->layer, &segment_type_text_layer.layer);
 
-  layer_init(&pomodoro_count_layer, GRect(0, 50, width, 40));
+  layer_init(&pomodoro_count_layer, GRect(0, 90, width, 40));
   layer_set_update_proc(&pomodoro_count_layer, update_pomodoro_count_layer);
   layer_add_child(&window->layer, &pomodoro_count_layer);
 }
