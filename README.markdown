@@ -55,8 +55,9 @@ See https://github.com/jonspeicher/Pomade/releases.
 Source and Contributions
 ------------------------
 
-The source for Pomade is available at https://github.com/jonspeicher/Pomade. To
-clone and hack:
+The source for Pomade is available at https://github.com/jonspeicher/Pomade.
+
+To clone and hack:
 
     git clone https://github.com/jonspeicher/Pomade.git
     <pebble-sdk>/Pebble/tools/create_pebble_project.py --symlink-only <pebble-sdk>/Pebble/sdk Pomade
@@ -74,5 +75,5 @@ Jon Speicher (jon.speicher@gmail.com)
 License
 -------
 
-    Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
-    Licensed under the MIT license: http://opensource.org/licenses/MIT
+Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)  
+Licensed under the MIT license: http://opensource.org/licenses/MIT
