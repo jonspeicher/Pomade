@@ -69,6 +69,7 @@ void countdown_start_handler() {
 void countdown_complete_handler() {
   vibes_long_pulse();
   pomodoro_complete_segment(&pomodoro);
+  segment_view_set_pomodoros_completed(pomodoro.pomodoros_completed);
 }
 
 void countdown_abort_handler() {

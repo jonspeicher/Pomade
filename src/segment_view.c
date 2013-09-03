@@ -19,6 +19,10 @@ static Layer pomodoro_count_layer;
 
 static WindowHandler previous_unload_handler;
 
+// Define a variable to hold the count of pomodoros completed.
+
+static unsigned int pomodoros_completed;
+
 // Private functions.
 
 static void load_and_add_view(Window* window);
@@ -33,6 +37,10 @@ void segment_view_init(Window* window) {
   window_set_window_handlers(window, (WindowHandlers) {
     .unload = remove_and_unload_view
   });
+}
+
+void segment_view_set_pomodoros_completed(unsigned int completed) {
+  pomodoros_completed = completed;
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
@@ -71,8 +79,13 @@ void update_pomodoro_count_layer(Layer* layer, GContext* ctx) {
   unsigned int span = layer->frame.size.w / (POMODORO_COUNT_FOR_LONG_BREAK + 1);
 
   graphics_context_set_stroke_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, GColorBlack);
   // TBD: This should probably be set from outside - JRS 9/1
   for (unsigned int i = 0; i < POMODORO_COUNT_FOR_LONG_BREAK; i++) {
-    graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
+    if (i < pomodoros_completed) {
+      graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
+    } else {
+      graphics_fill_circle(ctx, GPoint((i + 1) * span, 20), 5);
+    }
   }
 }
