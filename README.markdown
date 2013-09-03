@@ -51,6 +51,10 @@ pomodoro unless you then restart and successfully complete that pomodoro, but
 it will allow you to abort a break and proceed directly to the next pomodoro if
 you so desire.
 
+After every fourth successfully-completed pomodoro, Pomade will present a "long
+break" instead of the normal break duration. This long break may be aborted to
+begin the next pomodoro at any time, just like a normal break.
+
 Release History
 ---------------
 
