@@ -44,6 +44,7 @@ void segment_view_set_pomodoros_completed(unsigned int completed) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
+  // TBD: This would be the place to kick off flyout animation - JRS 9/4
   layer_set_hidden(&break_layer.layer, (type != POMODORO_SEGMENT_TYPE_BREAK));
   layer_set_hidden(&pomodoro_layer, (type != POMODORO_SEGMENT_TYPE_POMODORO));
 }
@@ -77,9 +78,10 @@ void update_pomodoro_layer(Layer* layer, GContext* ctx) {
 
   graphics_context_set_stroke_color(ctx, GColorBlack);
   graphics_context_set_fill_color(ctx, GColorBlack);
-  // TBD: This should probably be set from outside - JRS 9/1
+  // TBD: This should probably be set from outside - JRS 9/3
   for (unsigned int i = 0; i < POMODORO_COUNT_FOR_LONG_BREAK; i++) {
     if (i < pomodoros_completed) {
+      // TBD: This could stand to be cleaned up - JRS 9/4
       graphics_fill_circle(ctx, GPoint((i + 1) * span, 20), 5);
     } else {
       graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
