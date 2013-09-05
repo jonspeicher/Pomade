@@ -53,7 +53,9 @@ you so desire, however.
 
 After every fourth successfully-completed pomodoro, Pomade will present a "long
 break" instead of the normal break duration. This long break may be aborted to
-begin the next pomodoro at any time, just like a normal break.
+begin the next pomodoro at any time, just like a normal break. The number of
+pomodoros completed in the long break cycle is shown using filled and unfilled
+dots: a filled dot represents a completed pomodoro.
 
 Release History
 ---------------
