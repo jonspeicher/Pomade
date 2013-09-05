@@ -9,6 +9,7 @@
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "pomodoro.h"
+#include "pomodoro_config.h"
 #include "pomodoro_controller.h"
 #include "segment_view.h"
 #include "timer_window.h"
@@ -45,6 +46,7 @@ void pomodoro_controller_init(AppContextRef ctx) {
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
 
   segment_view_init(&timer_window);
+  segment_view_set_num_pomodoro_indicators(POMODORO_COUNT_FOR_LONG_BREAK);
   segment_view_show_segment_type(pomodoro.this_segment->type);
 
   timer_window_push(&timer_window);

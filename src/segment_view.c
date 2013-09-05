@@ -7,8 +7,11 @@
 #include <pebble_os.h>
 #include <pebble_fonts.h>
 
-#include "pomodoro_config.h" // TBD: This can be removed if passed in - JRS 9/2
 #include "segment_view.h"
+
+// Define a variable to hold the number of pomodoro indicators on the view.
+
+static unsigned int num_pomodoro_indicators;
 
 // Define a variable to hold the count of pomodoros completed.
 
@@ -37,6 +40,10 @@ void segment_view_init(Window* window) {
   window_set_window_handlers(window, (WindowHandlers) {
     .unload = remove_and_unload_view
   });
+}
+
+void segment_view_set_num_pomodoro_indicators(unsigned int num_indicators) {
+  num_pomodoro_indicators = num_indicators;
 }
 
 void segment_view_set_pomodoros_completed(unsigned int completed) {
@@ -74,12 +81,12 @@ void remove_and_unload_view(Window* window) {
 }
 
 void update_pomodoro_layer(Layer* layer, GContext* ctx) {
-  unsigned int span = layer->frame.size.w / (POMODORO_COUNT_FOR_LONG_BREAK + 1);
+  unsigned int span = layer->frame.size.w / (num_pomodoro_indicators + 1);
 
   graphics_context_set_stroke_color(ctx, GColorBlack);
   graphics_context_set_fill_color(ctx, GColorBlack);
-  // TBD: This should probably be set from outside - JRS 9/3
-  for (unsigned int i = 0; i < POMODORO_COUNT_FOR_LONG_BREAK; i++) {
+
+  for (unsigned int i = 0; i < num_pomodoro_indicators; i++) {
     if (i < pomodoros_completed) {
       // TBD: This could stand to be cleaned up - JRS 9/4
       graphics_fill_circle(ctx, GPoint((i + 1) * span, 20), 5);
