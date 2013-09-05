@@ -82,16 +82,18 @@ void remove_and_unload_view(Window* window) {
 
 void update_pomodoro_layer(Layer* layer, GContext* ctx) {
   unsigned int span = layer->frame.size.w / (num_pomodoro_indicators + 1);
+  unsigned int radius = 5;
+  GPoint center = GPoint(span, 20);
 
   graphics_context_set_stroke_color(ctx, GColorBlack);
   graphics_context_set_fill_color(ctx, GColorBlack);
 
   for (unsigned int i = 0; i < num_pomodoro_indicators; i++) {
+    center.x = span * (i + 1);
     if (i < pomodoros_completed) {
-      // TBD: This could stand to be cleaned up - JRS 9/4
-      graphics_fill_circle(ctx, GPoint((i + 1) * span, 20), 5);
+      graphics_fill_circle(ctx, center, radius);
     } else {
-      graphics_draw_circle(ctx, GPoint((i + 1) * span, 20), 5);
+      graphics_draw_circle(ctx, center, radius);
     }
   }
 }
