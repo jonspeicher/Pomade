@@ -1,5 +1,6 @@
 # To Do
 
+* BETTER ICONS!
 * Add fancy flyout animation when changing the segment view from pomodoro to
   break and vice-versa
 * Make pomodoro, short, and long break intervals configurable?
