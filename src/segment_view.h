@@ -13,6 +13,14 @@
 
 void segment_view_init(Window* window);
 
+// Sets the number of pomodoro indicators that will appear on the view.
+
+void segment_view_set_num_pomodoro_indicators(unsigned int num_indicators);
+
+// Sets the number of pomodoros that have been completed in this sequence.
+
+void segment_view_set_pomodoros_completed(unsigned int pomodoros_completed);
+
 // Shows the specified segment type.
 
 void segment_view_show_segment_type(PomodoroSegmentType type);
