@@ -9,6 +9,11 @@
 
 #include "segment_view.h"
 
+// TBD: I may not need to relocate layer at animation stop: API has from/to, so
+// just go from center to left on one and from right to center on the other? No
+// stop handler needed? Could use static structs for left/center/right and
+// helper pointers for outbound/inbound based on segment type.
+
 // Define a variable to hold the number of pomodoro indicators on the view.
 
 static unsigned int num_pomodoro_indicators;
@@ -21,6 +26,7 @@ static unsigned int pomodoros_completed;
 
 static TextLayer break_layer;
 static Layer pomodoro_layer;
+static PropertyAnimation flyout_animation;
 
 // Define a variable to hold the previous unload handler for chaining.
 
@@ -51,9 +57,14 @@ void segment_view_set_pomodoros_completed(unsigned int completed) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
-  // TBD: This would be the place to kick off flyout animation - JRS 9/4
-  layer_set_hidden(&break_layer.layer, (type != POMODORO_SEGMENT_TYPE_BREAK));
-  layer_set_hidden(&pomodoro_layer, (type != POMODORO_SEGMENT_TYPE_POMODORO));
+  GRect to_rect = GRect(-124, 90, 124, 40);
+  animation_set_curve(&flyout_animation.animation, AnimationCurveEaseInOut);
+  if (type == POMODORO_SEGMENT_TYPE_POMODORO) {
+    property_animation_init_layer_frame(&flyout_animation, &break_layer.layer, NULL, &to_rect);
+  } else {
+    property_animation_init_layer_frame(&flyout_animation, &pomodoro_layer, NULL, &to_rect);
+  }
+  animation_schedule(&flyout_animation.animation);
 }
 
 // Private functions ----------------------------------------------------------
@@ -65,7 +76,7 @@ void load_and_add_view(Window* window) {
   layer_set_update_proc(&pomodoro_layer, update_pomodoro_layer);
   layer_add_child(&window->layer, &pomodoro_layer);
 
-  text_layer_init(&break_layer, GRect(0, 90, width, 40));
+  text_layer_init(&break_layer, GRect(width, 90, width, 40));
   text_layer_set_text_alignment(&break_layer, GTextAlignmentCenter);
   text_layer_set_font(&break_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   text_layer_set_text(&break_layer, "break");
