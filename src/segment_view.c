@@ -7,7 +7,12 @@
 #include <pebble_os.h>
 #include <pebble_fonts.h>
 
+#include "pomodoro.h"
 #include "segment_view.h"
+
+// Define a variable to hold the currently-displayed segment type.
+
+static PomodoroSegmentType current_segment_type;
 
 // Define a variable to hold the number of pomodoro indicators on the view.
 
@@ -38,6 +43,7 @@ static void update_pomodoro_layer(Layer* layer, GContext* ctx);
 // Public functions -----------------------------------------------------------
 
 void segment_view_init(Window* window) {
+  current_segment_type = POMODORO_SEGMENT_TYPE_POMODORO;
   load_and_add_view(window);
   previous_unload_handler = window->window_handlers.unload;
   window_set_window_handlers(window, (WindowHandlers) {
@@ -54,6 +60,9 @@ void segment_view_set_pomodoros_completed(unsigned int completed) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
+  if (type == current_segment_type) return;
+  current_segment_type = type;
+
   if (type == POMODORO_SEGMENT_TYPE_POMODORO) {
     property_animation_init_layer_frame(&flyout_animation, &break_layer.layer, &onscreen, &offscreen_left);
     property_animation_init_layer_frame(&flyin_animation, &pomodoro_layer, &offscreen_right, &onscreen);
