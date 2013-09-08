@@ -9,11 +9,6 @@
 
 #include "segment_view.h"
 
-// TBD: I may not need to relocate layer at animation stop: API has from/to, so
-// just go from center to left on one and from right to center on the other? No
-// stop handler needed? Could use static structs for left/center/right and
-// helper pointers for outbound/inbound based on segment type.
-
 // Define a variable to hold the number of pomodoro indicators on the view.
 
 static unsigned int num_pomodoro_indicators;
@@ -26,7 +21,9 @@ static unsigned int pomodoros_completed;
 
 static TextLayer break_layer;
 static Layer pomodoro_layer;
-static PropertyAnimation flyout_animation;
+
+static PropertyAnimation flyout_animation, flyin_animation;
+static GRect offscreen_left, onscreen, offscreen_right;
 
 // Define a variable to hold the previous unload handler for chaining.
 
@@ -57,14 +54,15 @@ void segment_view_set_pomodoros_completed(unsigned int completed) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
-  GRect to_rect = GRect(-124, 90, 124, 40);
-  animation_set_curve(&flyout_animation.animation, AnimationCurveEaseInOut);
   if (type == POMODORO_SEGMENT_TYPE_POMODORO) {
-    property_animation_init_layer_frame(&flyout_animation, &break_layer.layer, NULL, &to_rect);
+    property_animation_init_layer_frame(&flyout_animation, &break_layer.layer, &onscreen, &offscreen_left);
+    property_animation_init_layer_frame(&flyin_animation, &pomodoro_layer, &offscreen_right, &onscreen);
   } else {
-    property_animation_init_layer_frame(&flyout_animation, &pomodoro_layer, NULL, &to_rect);
+    property_animation_init_layer_frame(&flyout_animation, &pomodoro_layer, &onscreen, &offscreen_left);
+    property_animation_init_layer_frame(&flyin_animation, &break_layer.layer, &offscreen_right, &onscreen);
   }
   animation_schedule(&flyout_animation.animation);
+  animation_schedule(&flyin_animation.animation);
 }
 
 // Private functions ----------------------------------------------------------
@@ -72,11 +70,18 @@ void segment_view_show_segment_type(PomodoroSegmentType type) {
 void load_and_add_view(Window* window) {
   unsigned int width = window->layer.frame.size.w - ACTION_BAR_WIDTH;
 
-  layer_init(&pomodoro_layer, GRect(0, 90, width, 40));
+  offscreen_left = GRect(-width, 90, width, 40);
+  onscreen = GRect(0, 90, width, 40);
+  offscreen_right = GRect(width, 90, width ,40);
+
+  animation_set_curve(&flyout_animation.animation, AnimationCurveEaseInOut);
+  animation_set_curve(&flyin_animation.animation, AnimationCurveEaseInOut);
+
+  layer_init(&pomodoro_layer, onscreen);
   layer_set_update_proc(&pomodoro_layer, update_pomodoro_layer);
   layer_add_child(&window->layer, &pomodoro_layer);
 
-  text_layer_init(&break_layer, GRect(width, 90, width, 40));
+  text_layer_init(&break_layer, offscreen_right);
   text_layer_set_text_alignment(&break_layer, GTextAlignmentCenter);
   text_layer_set_font(&break_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   text_layer_set_text(&break_layer, "break");
