@@ -82,6 +82,13 @@ Author
 
 Jon Speicher (jon.speicher@gmail.com)
 
+Attribution
+-----------
+
+Pomade's application icon is derived from _Tomato_, designed by José Campos,
+from The Noun Project, licensed under CC BY 3.0 and available at
+http://thenounproject.com/noun/tomato/#icon-No15790.
+
 License
 -------
 
