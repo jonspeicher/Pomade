@@ -27,8 +27,8 @@ static unsigned int pomodoros_completed;
 static TextLayer break_layer;
 static Layer pomodoro_layer;
 
-static PropertyAnimation flyout_animation, flyin_animation;
-static GRect offscreen_left, onscreen, offscreen_right;
+static PropertyAnimation flyout, flyin;
+static GRect left_rect, center_rect, right_rect;
 
 // Define a variable to hold the previous unload handler for chaining.
 
@@ -60,18 +60,25 @@ void segment_view_set_pomodoros_completed(unsigned int completed) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
+  Layer* in;
+  Layer* out;
+
   if (type == current_segment_type) return;
   current_segment_type = type;
 
   if (type == POMODORO_SEGMENT_TYPE_POMODORO) {
-    property_animation_init_layer_frame(&flyout_animation, &break_layer.layer, &onscreen, &offscreen_left);
-    property_animation_init_layer_frame(&flyin_animation, &pomodoro_layer, &offscreen_right, &onscreen);
+    in = &pomodoro_layer;
+    out = &break_layer.layer;
   } else {
-    property_animation_init_layer_frame(&flyout_animation, &pomodoro_layer, &onscreen, &offscreen_left);
-    property_animation_init_layer_frame(&flyin_animation, &break_layer.layer, &offscreen_right, &onscreen);
+    in = &break_layer.layer;
+    out = &pomodoro_layer;
   }
-  animation_schedule(&flyout_animation.animation);
-  animation_schedule(&flyin_animation.animation);
+
+  property_animation_init_layer_frame(&flyout, out, &center_rect, &left_rect);
+  property_animation_init_layer_frame(&flyin, in, &right_rect, &center_rect);
+
+  animation_schedule(&flyout.animation);
+  animation_schedule(&flyin.animation);
 }
 
 // Private functions ----------------------------------------------------------
@@ -79,18 +86,18 @@ void segment_view_show_segment_type(PomodoroSegmentType type) {
 void load_and_add_view(Window* window) {
   unsigned int width = window->layer.frame.size.w - ACTION_BAR_WIDTH;
 
-  offscreen_left = GRect(-width, 90, width, 40);
-  onscreen = GRect(0, 90, width, 40);
-  offscreen_right = GRect(width, 90, width ,40);
+  left_rect = GRect(-width, 90, width, 40);
+  center_rect = GRect(0, 90, width, 40);
+  right_rect = GRect(width, 90, width ,40);
 
-  animation_set_curve(&flyout_animation.animation, AnimationCurveEaseInOut);
-  animation_set_curve(&flyin_animation.animation, AnimationCurveEaseInOut);
+  animation_set_curve(&flyout.animation, AnimationCurveEaseInOut);
+  animation_set_curve(&flyin.animation, AnimationCurveEaseInOut);
 
-  layer_init(&pomodoro_layer, onscreen);
+  layer_init(&pomodoro_layer, center_rect);
   layer_set_update_proc(&pomodoro_layer, update_pomodoro_layer);
   layer_add_child(&window->layer, &pomodoro_layer);
 
-  text_layer_init(&break_layer, offscreen_right);
+  text_layer_init(&break_layer, right_rect);
   text_layer_set_text_alignment(&break_layer, GTextAlignmentCenter);
   text_layer_set_font(&break_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   text_layer_set_text(&break_layer, "break");
