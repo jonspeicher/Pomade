@@ -8,19 +8,12 @@
 #include <pebble_fonts.h>
 
 #include "pomodoro.h"
+#include "progress_layer.h"
 #include "segment_view.h"
 
 // Define a variable to hold the currently-displayed segment type.
 
 static PomodoroSegmentType current_segment_type;
-
-// Define a variable to hold the number of pomodoro indicators on the view.
-
-static unsigned int num_pomodoro_indicators;
-
-// Define a variable to hold the count of pomodoros completed.
-
-static unsigned int pomodoros_completed;
 
 // Define the various user interface elements comprising this view.
 
@@ -38,7 +31,6 @@ static WindowHandler previous_unload_handler;
 
 static void load_and_add_view(Window* window);
 static void remove_and_unload_view(Window* window);
-static void update_pomodoro_layer(Layer* layer, GContext* ctx);
 
 // Public functions -----------------------------------------------------------
 
@@ -52,11 +44,11 @@ void segment_view_init(Window* window) {
 }
 
 void segment_view_set_num_pomodoro_indicators(unsigned int num_indicators) {
-  num_pomodoro_indicators = num_indicators;
+  progress_layer_set_num_steps(&pomodoro_layer, num_indicators);
 }
 
-void segment_view_set_pomodoros_completed(unsigned int completed) {
-  pomodoros_completed = completed;
+void segment_view_set_pomodoros_completed(unsigned int pomodoros_completed) {
+  progress_layer_set_num_steps_completed(&pomodoro_layer, pomodoros_completed);
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
@@ -93,8 +85,7 @@ void load_and_add_view(Window* window) {
   animation_set_curve(&flyout.animation, AnimationCurveEaseInOut);
   animation_set_curve(&flyin.animation, AnimationCurveEaseInOut);
 
-  layer_init(&pomodoro_layer, center_rect);
-  layer_set_update_proc(&pomodoro_layer, update_pomodoro_layer);
+  progress_layer_init(&pomodoro_layer, center_rect);
   layer_add_child(&window->layer, &pomodoro_layer);
 
   text_layer_init(&break_layer, right_rect);
@@ -109,23 +100,5 @@ void remove_and_unload_view(Window* window) {
   layer_remove_from_parent(&break_layer.layer);
   if (previous_unload_handler) {
     previous_unload_handler(window);
-  }
-}
-
-void update_pomodoro_layer(Layer* layer, GContext* ctx) {
-  unsigned int span = layer->frame.size.w / (num_pomodoro_indicators + 1);
-  unsigned int radius = 5;
-  GPoint center = GPoint(span, 20);
-
-  graphics_context_set_stroke_color(ctx, GColorBlack);
-  graphics_context_set_fill_color(ctx, GColorBlack);
-
-  for (unsigned int i = 0; i < num_pomodoro_indicators; i++) {
-    center.x = span * (i + 1);
-    if (i < pomodoros_completed) {
-      graphics_fill_circle(ctx, center, radius);
-    } else {
-      graphics_draw_circle(ctx, center, radius);
-    }
   }
 }
