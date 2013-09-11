@@ -17,6 +17,11 @@ void flyout_animation_add_child(Layer* layer, FlyoutAnimation* animation) {
   layer_add_child(layer, animation->off_screen_layer);
 }
 
+void flyout_animation_remove_from_parent(FlyoutAnimation* animation) {
+  layer_remove_from_parent(animation->on_screen_layer);
+  layer_remove_from_parent(animation->off_screen_layer);
+}
+
 void flyout_animation_swap_layers(FlyoutAnimation* animation) {
   Layer* temp = animation->on_screen_layer;
   animation->on_screen_layer = animation->off_screen_layer;

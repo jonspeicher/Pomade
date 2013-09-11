@@ -14,6 +14,8 @@ void flyout_animation_init(FlyoutAnimation* animation, Layer* on, Layer* off);
 
 void flyout_animation_add_child(Layer* layer, FlyoutAnimation* animation);
 
+void flyout_animation_remove_from_parent(FlyoutAnimation* animation);
+
 void flyout_animation_swap_layers(FlyoutAnimation* animation);
 
 void flyout_animation_schedule(FlyoutAnimation* animation);

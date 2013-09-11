@@ -75,8 +75,7 @@ void load_and_add_view(Window* window) {
 }
 
 void remove_and_unload_view(Window* window) {
-  layer_remove_from_parent(&pomodoro_layer);
-  layer_remove_from_parent(&break_layer.layer);
+  flyout_animation_remove_from_parent(&flyout_animation);
   if (previous_unload_handler) {
     previous_unload_handler(window);
   }
