@@ -1,5 +1,13 @@
+// ----------------------------------------------------------------------------
+// flyout_animation - Switches between two layers with flyout/flyin animation
+// Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
+// Licensed under the MIT license: http://opensource.org/licenses/MIT
+// ----------------------------------------------------------------------------
+
 #include <pebble_os.h>
 #include "flyout_animation.h"
+
+// Public functions -----------------------------------------------------------
 
 void flyout_animation_init(FlyoutAnimation* animation, Layer* on, Layer* off) {
   animation->on_screen_layer = on;
