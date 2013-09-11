@@ -7,6 +7,7 @@
 #include <pebble_os.h>
 #include <pebble_fonts.h>
 
+#include "flyout_animation.h"
 #include "pomodoro.h"
 #include "progress_layer.h"
 #include "segment_view.h"
@@ -19,9 +20,7 @@ static PomodoroSegmentType current_segment_type;
 
 static TextLayer break_layer;
 static Layer pomodoro_layer;
-
-static PropertyAnimation flyout, flyin;
-static GRect left_rect, center_rect, right_rect;
+static FlyoutAnimation flyout_animation;
 
 // Define a variable to hold the previous unload handler for chaining.
 
@@ -52,47 +51,27 @@ void segment_view_set_pomodoros_completed(unsigned int pomodoros_completed) {
 }
 
 void segment_view_show_segment_type(PomodoroSegmentType type) {
-  Layer* in;
-  Layer* out;
-
   if (type == current_segment_type) return;
   current_segment_type = type;
-
-  if (type == POMODORO_SEGMENT_TYPE_POMODORO) {
-    in = &pomodoro_layer;
-    out = &break_layer.layer;
-  } else {
-    in = &break_layer.layer;
-    out = &pomodoro_layer;
-  }
-
-  property_animation_init_layer_frame(&flyout, out, &center_rect, &left_rect);
-  property_animation_init_layer_frame(&flyin, in, &right_rect, &center_rect);
-
-  animation_schedule(&flyout.animation);
-  animation_schedule(&flyin.animation);
+  flyout_animation_swap_layers(&flyout_animation);
+  flyout_animation_schedule(&flyout_animation);
 }
 
 // Private functions ----------------------------------------------------------
 
 void load_and_add_view(Window* window) {
   unsigned int width = window->layer.frame.size.w - ACTION_BAR_WIDTH;
+  GRect rect = GRect(0, 90, width, 40);
 
-  left_rect = GRect(-width, 90, width, 40);
-  center_rect = GRect(0, 90, width, 40);
-  right_rect = GRect(width, 90, width ,40);
+  progress_layer_init(&pomodoro_layer, rect);
 
-  animation_set_curve(&flyout.animation, AnimationCurveEaseInOut);
-  animation_set_curve(&flyin.animation, AnimationCurveEaseInOut);
-
-  progress_layer_init(&pomodoro_layer, center_rect);
-  layer_add_child(&window->layer, &pomodoro_layer);
-
-  text_layer_init(&break_layer, right_rect);
+  text_layer_init(&break_layer, rect);
   text_layer_set_text_alignment(&break_layer, GTextAlignmentCenter);
   text_layer_set_font(&break_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   text_layer_set_text(&break_layer, "break");
-  layer_add_child(&window->layer, &break_layer.layer);
+
+  flyout_animation_init(&flyout_animation, &pomodoro_layer, &break_layer.layer);
+  flyout_animation_add_child(&window->layer, &flyout_animation);
 }
 
 void remove_and_unload_view(Window* window) {
