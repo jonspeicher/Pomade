@@ -60,12 +60,13 @@ void segment_view_show_segment_type(PomodoroSegmentType type) {
 // Private functions ----------------------------------------------------------
 
 void load_and_add_view(Window* window) {
-  unsigned int width = window->layer.frame.size.w - ACTION_BAR_WIDTH;
-  GRect rect = GRect(0, 90, width, 40);
+  GRect window_frame = layer_get_frame(&window->layer);
+  unsigned int width = window_frame.size.w - ACTION_BAR_WIDTH;
+  GRect view_frame = GRect(0, 90, width, 40);
 
-  progress_layer_init(&pomodoro_layer, rect);
+  progress_layer_init(&pomodoro_layer, view_frame);
 
-  text_layer_init(&break_layer, rect);
+  text_layer_init(&break_layer, view_frame);
   text_layer_set_text_alignment(&break_layer, GTextAlignmentCenter);
   text_layer_set_font(&break_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   text_layer_set_text(&break_layer, "break");

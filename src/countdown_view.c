@@ -76,6 +76,8 @@ void countdown_view_show_abort() {
 // Private functions ----------------------------------------------------------
 
 void load_and_add_view(Window* window, ClickConfigProvider provider) {
+  GRect window_frame, text_layer_frame;
+
   heap_bitmap_init(&icons.start, RESOURCE_ID_ICON_START);
   heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
   heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
@@ -85,9 +87,9 @@ void load_and_add_view(Window* window, ClickConfigProvider provider) {
   action_bar_layer_add_to_window(&action_bar, window);
   action_bar_layer_set_click_config_provider(&action_bar, provider);
 
-  // TBD: Is there a nicer way to do this? - JRS 8/16
-  text_layer_init(&countdown_text_layer, GRect(0, 20,
-    window->layer.frame.size.w - ACTION_BAR_WIDTH, 55));
+  window_frame = layer_get_frame(&window->layer);
+  text_layer_frame = GRect(0, 20, window_frame.size.w - ACTION_BAR_WIDTH, 55);
+  text_layer_init(&countdown_text_layer, text_layer_frame);
   text_layer_set_text_alignment(&countdown_text_layer, GTextAlignmentCenter);
   text_layer_set_font(&countdown_text_layer,
     fonts_get_system_font(FONT_KEY_BITHAM_42_LIGHT));

@@ -38,7 +38,8 @@ void progress_layer_set_num_steps_completed(Layer* layer, unsigned int steps) {
 // Private functions ----------------------------------------------------------
 
 void update_progress_layer(Layer* layer, GContext* ctx) {
-  unsigned int span = layer->frame.size.w / (num_steps + 1);
+  GRect frame = layer_get_frame(layer);
+  unsigned int span = frame.size.w / (num_steps + 1);
   unsigned int radius = 5;
   GPoint center = GPoint(span, 20);
 

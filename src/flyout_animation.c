@@ -10,11 +10,17 @@
 // Public functions -----------------------------------------------------------
 
 void flyout_animation_init(FlyoutAnimation* animation, Layer* on, Layer* off) {
+  GRect on_screen_frame, off_screen_frame;
+
   animation->on_screen_layer = on;
   animation->off_screen_layer = off;
 
-  animation->target_rect = animation->on_screen_layer->frame;
-  animation->off_screen_layer->frame.origin.x = -animation->target_rect.size.w;
+  on_screen_frame = layer_get_frame(animation->on_screen_layer);
+  animation->target_rect = on_screen_frame;
+
+  off_screen_frame = on_screen_frame;
+  off_screen_frame.origin.x = -on_screen_frame.size.w;
+  layer_set_frame(animation->off_screen_layer, off_screen_frame);
 
   animation_set_curve(&animation->flyout.animation, AnimationCurveEaseInOut);
   animation_set_curve(&animation->flyin.animation, AnimationCurveEaseInOut);
