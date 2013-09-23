@@ -1,7 +1,5 @@
 # To Do
 
-* Add fancy flyout animation when changing the segment view from pomodoro to
-  break and vice-versa
 * Make pomodoro, short, and long break intervals configurable?
 * Add a stats module that tracks complete and aborts
 * Add a stats page that shows complete/abort percentages, averages, and etc.
