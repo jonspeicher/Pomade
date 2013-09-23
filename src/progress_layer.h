@@ -10,7 +10,7 @@
 
 // Initializes the progress layer.
 
-void progress_layer_init(Layer* layer, GRect rect);
+void progress_layer_init(Layer* layer, GRect frame);
 
 // Sets the number of steps that can be displayed by this progress layer.
 

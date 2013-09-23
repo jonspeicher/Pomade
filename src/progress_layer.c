@@ -21,8 +21,8 @@ static void update_progress_layer(Layer* layer, GContext* ctx);
 
 // Public functions -----------------------------------------------------------
 
-void progress_layer_init(Layer* layer, GRect rect) {
-  layer_init(layer, rect);
+void progress_layer_init(Layer* layer, GRect frame) {
+  layer_init(layer, frame);
   layer_set_update_proc(layer, update_progress_layer);
 }
 
