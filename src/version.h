@@ -9,4 +9,4 @@
 #define APP_NAME          "Pomade"
 #define APP_AUTHOR        "Jon Speicher"
 #define APP_VERSION_MAJOR 0
-#define APP_VERSION_MINOR 1
+#define APP_VERSION_MINOR 5
