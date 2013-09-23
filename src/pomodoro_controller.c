@@ -41,13 +41,13 @@ void pomodoro_controller_init(AppContextRef ctx) {
 
   timer_window_init(&timer_window);
 
-  countdown_controller_init(ctx, &timer_window);
-  countdown_controller_set_countdown_handlers(handlers);
-  countdown_controller_set_interval(&pomodoro.this_segment->interval);
-
   segment_view_init(&timer_window);
   segment_view_set_num_pomodoro_indicators(POMODORO_COUNT_FOR_LONG_BREAK);
   segment_view_show_segment_type(pomodoro.this_segment->type);
+
+  countdown_controller_init(ctx, &timer_window);
+  countdown_controller_set_countdown_handlers(handlers);
+  countdown_controller_set_interval(&pomodoro.this_segment->interval);
 
   timer_window_push(&timer_window);
 }
