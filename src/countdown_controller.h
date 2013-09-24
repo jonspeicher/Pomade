@@ -29,6 +29,10 @@ typedef struct {
 
 void countdown_controller_init(AppContextRef ctx, Window* window);
 
+// De-initializes the countdown controller.
+
+void countdown_controller_deinit(AppContextRef ctx);
+
 // Sets the countdown event handlers. These will be invoked when an executing
 // countdown completes or is aborted.
 

@@ -49,6 +49,10 @@ void countdown_controller_init(AppContextRef ctx, Window* window) {
   countdown_view_init(window, click_config_provider);
 }
 
+void countdown_controller_deinit(AppContextRef ctx) {
+  cancel_countdown_tick_oneshot_timer();
+}
+
 void countdown_controller_set_countdown_handlers(CountdownHandlers handlers) {
   countdown_handlers = handlers;
 }
@@ -103,9 +107,6 @@ void countdown_controller_timer_event(AppTimerHandle handle) {
 void start_countdown_tick_oneshot_timer() {
   timer = app_timer_send_event(app_ctx, COUNTDOWN_TICK_MS, COUNTDOWN_COOKIE);
 }
-
-// TBD: Does this need to be called at app unload if the timer happens to be
-// running? - JRS 9/11
 
 void cancel_countdown_tick_oneshot_timer() {
   app_timer_cancel_event(app_ctx, timer);

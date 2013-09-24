@@ -13,6 +13,11 @@
 
 void pomodoro_controller_init(AppContextRef ctx);
 
+// De-initializes the pomodoro controller. This will clean up any resources and
+// terminate any periodic processing.
+
+void pomodoro_controller_deinit(AppContextRef ctx);
+
 // Informs the pomodoro controller that a timer event has occurred. The main
 // application is responsible for handling timer events and forwarding them
 // along to the appropriate controllers.

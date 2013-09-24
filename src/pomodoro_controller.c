@@ -52,6 +52,10 @@ void pomodoro_controller_init(AppContextRef ctx) {
   timer_window_push(&timer_window);
 }
 
+void pomodoro_controller_deinit(AppContextRef ctx) {
+  countdown_controller_deinit(ctx);
+}
+
 void pomodoro_controller_timer_event(AppTimerHandle handle, uint32_t cookie) {
   // TBD: Is it worth retrieving this from the controller somehow? Would it
   // ever need to be chained? - JRS 8/15

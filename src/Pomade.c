@@ -27,6 +27,10 @@ void handle_init(AppContextRef ctx) {
   pomodoro_controller_init(ctx);
 }
 
+void handle_deinit(AppContextRef ctx) {
+  pomodoro_controller_deinit(ctx);
+}
+
 void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
   pomodoro_controller_timer_event(handle, cookie);
 }
@@ -36,6 +40,7 @@ void handle_timer(AppContextRef ctx, AppTimerHandle handle, uint32_t cookie) {
 void pbl_main(void* params) {
   PebbleAppHandlers handlers = {
     .init_handler = handle_init,
+    .deinit_handler = handle_deinit,
     .timer_handler = handle_timer
   };
   app_event_loop(params, &handlers);
