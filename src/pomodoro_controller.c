@@ -39,7 +39,7 @@ void pomodoro_controller_init(AppContextRef ctx) {
 
   pomodoro_init(&pomodoro);
 
-  action_window_init(&action_window);
+  action_window_init(&action_window, "timer_window");
 
   segment_view_init(&action_window);
   segment_view_set_num_pomodoro_indicators(POMODORO_COUNT_FOR_LONG_BREAK);

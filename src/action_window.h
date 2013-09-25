@@ -11,7 +11,7 @@
 // Initializes the window. This will load any necessary resources and lay the
 // window out, but will not display the window.
 
-void action_window_init(Window* window);
+void action_window_init(Window* window, char* debug_name);
 
 // Sets the click config provider for the window, which will be invoked
 // whenever the window needs to update the click configuration.

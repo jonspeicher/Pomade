@@ -9,12 +9,6 @@
 
 #include <pebble_os.h>
 
-// TBD: Consider this an "action window" and pass in the debug name - JRS 9/24
-
-// Define the debug name of this window.
-
-#define WINDOW_DEBUG_NAME "action"
-
 // Define the various user interface elements comprising this window.
 
 static ActionBarLayer action_bar;
@@ -25,8 +19,8 @@ static void window_unload(Window* window);
 
 // Public functions -----------------------------------------------------------
 
-void action_window_init(Window* window) {
-  window_init(window, WINDOW_DEBUG_NAME);
+void action_window_init(Window* window, char* debug_name) {
+  window_init(window, debug_name);
   action_bar_layer_init(&action_bar);
   action_bar_layer_add_to_window(&action_bar, window);
   window_set_window_handlers(window, (WindowHandlers) {
