@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// timer_window - Initializes and displays the main timer window
+// action_window - Initializes and displays the action window
 // Copyright (c) 2013 Jonathan Speicher (jon.speicher@gmail.com)
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
@@ -13,7 +13,7 @@
 
 // Define the debug name of this window.
 
-#define WINDOW_DEBUG_NAME "timer"
+#define WINDOW_DEBUG_NAME "action"
 
 // Define the various user interface elements comprising this window.
 
@@ -25,7 +25,7 @@ static void window_unload(Window* window);
 
 // Public functions -----------------------------------------------------------
 
-void timer_window_init(Window* window) {
+void action_window_init(Window* window) {
   window_init(window, WINDOW_DEBUG_NAME);
   action_bar_layer_init(&action_bar);
   action_bar_layer_add_to_window(&action_bar, window);
@@ -40,19 +40,19 @@ void timer_window_init(Window* window) {
 // window), and how other controllers (e.g. stat display) get access to this
 // one window (e.g. which controller "owns" this window; Pomade?) - JRS 9/24
 
-void timer_window_set_click_config_provider(ClickConfigProvider provider) {
+void action_window_set_click_config_provider(ClickConfigProvider provider) {
   action_bar_layer_set_click_config_provider(&action_bar, provider);
 }
 
-void timer_window_push(Window* window) {
+void action_window_push(Window* window) {
   window_stack_push(window, true);
 }
 
-void timer_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon) {
+void action_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon) {
   action_bar_layer_set_icon(&action_bar, button_id, icon);
 }
 
-void timer_window_clear_action_bar_icons() {
+void action_window_clear_action_bar_icons() {
   action_bar_layer_clear_icon(&action_bar, BUTTON_ID_UP);
   action_bar_layer_clear_icon(&action_bar, BUTTON_ID_SELECT);
   action_bar_layer_clear_icon(&action_bar, BUTTON_ID_DOWN);

@@ -8,8 +8,8 @@
 #include <pebble_app.h>
 #include <pebble_fonts.h>
 
+#include "action_window.h"
 #include "countdown_view.h"
-#include "timer_window.h" // TBD: I don't like this - JRS 9/24
 
 // Define the length in characters of the countdown string, including the NULL.
 
@@ -51,7 +51,7 @@ void countdown_view_init(Window* window, ClickConfigProvider provider) {
   window_set_window_handlers(window, (WindowHandlers) {
     .unload = remove_and_unload_view
   });
-  timer_window_set_click_config_provider(provider);
+  action_window_set_click_config_provider(provider);
   load_and_add_view(window);
   countdown_view_show_start();
 }
@@ -66,15 +66,15 @@ void countdown_view_set_time_remaining_sec(unsigned int seconds) {
 }
 
 void countdown_view_show_start() {
-  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.start.bmp);
+  action_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.start.bmp);
 }
 
 void countdown_view_show_restart() {
-  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.restart.bmp);
+  action_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.restart.bmp);
 }
 
 void countdown_view_show_abort() {
-  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.abort.bmp);
+  action_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.abort.bmp);
 }
 
 // Private functions ----------------------------------------------------------
@@ -99,7 +99,7 @@ void load_and_add_view(Window* window) {
 void remove_and_unload_view(Window* window) {
   layer_remove_from_parent(&countdown_text_layer.layer);
 
-  timer_window_clear_action_bar_icons();
+  action_window_clear_action_bar_icons();
   heap_bitmap_deinit(&icons.start);
   heap_bitmap_deinit(&icons.restart);
   heap_bitmap_deinit(&icons.abort);

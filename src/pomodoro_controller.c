@@ -6,17 +6,17 @@
 
 #include <pebble_os.h>
 
+#include "action_window.h"
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "pomodoro.h"
 #include "pomodoro_config.h"
 #include "pomodoro_controller.h"
 #include "segment_view.h"
-#include "timer_window.h"
 
 // Define the window that will be given to the controllers for view setup.
 
-static Window timer_window;
+static Window action_window;
 
 // Define a variable to track progress through the pomodoro technique.
 
@@ -39,17 +39,17 @@ void pomodoro_controller_init(AppContextRef ctx) {
 
   pomodoro_init(&pomodoro);
 
-  timer_window_init(&timer_window);
+  action_window_init(&action_window);
 
-  segment_view_init(&timer_window);
+  segment_view_init(&action_window);
   segment_view_set_num_pomodoro_indicators(POMODORO_COUNT_FOR_LONG_BREAK);
   segment_view_show_segment_type(pomodoro.this_segment->type);
 
-  countdown_controller_init(ctx, &timer_window);
+  countdown_controller_init(ctx, &action_window);
   countdown_controller_set_countdown_handlers(handlers);
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
 
-  timer_window_push(&timer_window);
+  action_window_push(&action_window);
 }
 
 void pomodoro_controller_deinit(AppContextRef ctx) {
