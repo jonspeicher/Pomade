@@ -87,9 +87,8 @@ void load_and_add_view(Window* window, ClickConfigProvider provider) {
   heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
   heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
 
-  action_bar_layer_init(action_bar);
   action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
-  action_bar_layer_add_to_window(action_bar, window);
+  // TBD: Move this to window method then split into multiple callbacks - JRS 9/24
   action_bar_layer_set_click_config_provider(action_bar, provider);
 
   window_frame = layer_get_frame(&window->layer);

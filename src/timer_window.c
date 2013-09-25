@@ -4,6 +4,9 @@
 // Licensed under the MIT license: http://opensource.org/licenses/MIT
 // ----------------------------------------------------------------------------
 
+// TBD: The z-order bug is back; fix it this time by adding layers to this
+// window via a specific method that puts them below the action bar - JRS 9/24
+
 #include <pebble_os.h>
 
 // TBD: Consider this an "action window" and pass in the debug name - JRS 9/24
@@ -20,6 +23,8 @@ static ActionBarLayer action_bar;
 
 void timer_window_init(Window* window) {
   window_init(window, WINDOW_DEBUG_NAME);
+  action_bar_layer_init(&action_bar);
+  action_bar_layer_add_to_window(&action_bar, window);
 }
 
 void timer_window_push(Window* window) {
