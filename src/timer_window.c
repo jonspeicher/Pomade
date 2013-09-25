@@ -19,12 +19,19 @@
 
 static ActionBarLayer action_bar;
 
+// Private functions.
+
+static void window_unload(Window* window);
+
 // Public functions -----------------------------------------------------------
 
 void timer_window_init(Window* window) {
   window_init(window, WINDOW_DEBUG_NAME);
   action_bar_layer_init(&action_bar);
   action_bar_layer_add_to_window(&action_bar, window);
+  window_set_window_handlers(window, (WindowHandlers) {
+    .unload = window_unload
+  });
 }
 
 void timer_window_push(Window* window) {
@@ -35,4 +42,16 @@ void timer_window_push(Window* window) {
 
 ActionBarLayer* timer_window_get_action_bar() {
   return &action_bar;
+}
+
+void timer_window_clear_action_bar_icons() {
+  action_bar_layer_clear_icon(&action_bar, BUTTON_ID_UP);
+  action_bar_layer_clear_icon(&action_bar, BUTTON_ID_SELECT);
+  action_bar_layer_clear_icon(&action_bar, BUTTON_ID_DOWN);
+}
+
+// Private functions ----------------------------------------------------------
+
+void window_unload(Window* window) {
+  action_bar_layer_remove_from_window(&action_bar);
 }

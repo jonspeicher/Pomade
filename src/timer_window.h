@@ -20,3 +20,8 @@ void timer_window_push(Window* window);
 // Returns access to the action bar that is part of the timer window.
 
 ActionBarLayer* timer_window_get_action_bar();
+
+// Clears all the icons from the action bar. This should be called prior to
+// deinitialization of the icons by their owner.
+
+void timer_window_clear_action_bar_icons();
