@@ -63,18 +63,15 @@ void countdown_view_set_time_remaining_sec(unsigned int seconds) {
 }
 
 void countdown_view_show_start() {
-  ActionBarLayer* action_bar = timer_window_get_action_bar();
-  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
+  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.start.bmp);
 }
 
 void countdown_view_show_restart() {
-  ActionBarLayer* action_bar = timer_window_get_action_bar();
-  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.restart.bmp);
+  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.restart.bmp);
 }
 
 void countdown_view_show_abort() {
-  ActionBarLayer* action_bar = timer_window_get_action_bar();
-  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.abort.bmp);
+  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.abort.bmp);
 }
 
 // Private functions ----------------------------------------------------------
@@ -87,7 +84,7 @@ void load_and_add_view(Window* window, ClickConfigProvider provider) {
   heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
   heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
 
-  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
+  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.start.bmp);
   // TBD: Move this to window method then split into multiple callbacks - JRS 9/24
   action_bar_layer_set_click_config_provider(action_bar, provider);
 

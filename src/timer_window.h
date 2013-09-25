@@ -21,6 +21,10 @@ void timer_window_push(Window* window);
 
 ActionBarLayer* timer_window_get_action_bar();
 
+// Sets the icon for the given button on the action bar to the bitmap provided.
+
+void timer_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon);
+
 // Clears all the icons from the action bar. This should be called prior to
 // deinitialization of the icons by their owner.
 

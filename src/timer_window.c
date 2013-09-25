@@ -44,6 +44,10 @@ ActionBarLayer* timer_window_get_action_bar() {
   return &action_bar;
 }
 
+void timer_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon) {
+  action_bar_layer_set_icon(&action_bar, button_id, icon);
+}
+
 void timer_window_clear_action_bar_icons() {
   action_bar_layer_clear_icon(&action_bar, BUTTON_ID_UP);
   action_bar_layer_clear_icon(&action_bar, BUTTON_ID_SELECT);
