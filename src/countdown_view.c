@@ -8,6 +8,7 @@
 #include <pebble_app.h>
 #include <pebble_fonts.h>
 
+#include "countdown_view.h"
 #include "timer_window.h" // TBD: I don't like this - JRS 9/24
 
 // Define the length in characters of the countdown string, including the NULL.
@@ -40,17 +41,19 @@ static WindowHandler previous_unload_handler;
 
 // Private functions.
 
-static void load_and_add_view(Window* window, ClickConfigProvider provider);
+static void load_and_add_view(Window* window);
 static void remove_and_unload_view(Window* window);
 
 // Public functions -----------------------------------------------------------
 
 void countdown_view_init(Window* window, ClickConfigProvider provider) {
-  load_and_add_view(window, provider);
   previous_unload_handler = window->window_handlers.unload;
   window_set_window_handlers(window, (WindowHandlers) {
     .unload = remove_and_unload_view
   });
+  timer_window_set_click_config_provider(provider);
+  load_and_add_view(window);
+  countdown_view_show_start();
 }
 
 void countdown_view_set_time_remaining_sec(unsigned int seconds) {
@@ -76,19 +79,15 @@ void countdown_view_show_abort() {
 
 // Private functions ----------------------------------------------------------
 
-void load_and_add_view(Window* window, ClickConfigProvider provider) {
+void load_and_add_view(Window* window) {
   GRect window_frame, text_layer_frame;
-  ActionBarLayer* action_bar = timer_window_get_action_bar();
 
   heap_bitmap_init(&icons.start, RESOURCE_ID_ICON_START);
   heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
   heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
 
-  timer_window_set_action_bar_icon(BUTTON_ID_SELECT, &icons.start.bmp);
-  // TBD: Move this to window method then split into multiple callbacks - JRS 9/24
-  action_bar_layer_set_click_config_provider(action_bar, provider);
-
   window_frame = layer_get_frame(&window->layer);
+  // TBD: Make this a timer window define? - JRS 9/24
   text_layer_frame = GRect(0, 20, window_frame.size.w - ACTION_BAR_WIDTH, 55);
   text_layer_init(&countdown_text_layer, text_layer_frame);
   text_layer_set_text_alignment(&countdown_text_layer, GTextAlignmentCenter);

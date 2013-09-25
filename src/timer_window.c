@@ -34,14 +34,18 @@ void timer_window_init(Window* window) {
   });
 }
 
-void timer_window_push(Window* window) {
-  window_stack_push(window, true);
+// TBD: Split into multiple callbacks, one per button, figure what to pass from
+// where and how to register (e.g. what the handler registration process looks
+// like), who owns the actual CCP (I believe I decided that it would be this
+// window), and how other controllers (e.g. stat display) get access to this
+// one window (e.g. which controller "owns" this window; Pomade?) - JRS 9/24
+
+void timer_window_set_click_config_provider(ClickConfigProvider provider) {
+  action_bar_layer_set_click_config_provider(&action_bar, provider);
 }
 
-// TBD: Consider removing this or making it not act on a "singleton"- JRS 9/24
-
-ActionBarLayer* timer_window_get_action_bar() {
-  return &action_bar;
+void timer_window_push(Window* window) {
+  window_stack_push(window, true);
 }
 
 void timer_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon) {

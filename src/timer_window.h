@@ -13,13 +13,14 @@
 
 void timer_window_init(Window* window);
 
+// Sets the click config provider for the window, which will be invoked
+// whenever the window needs to update the click configuration.
+
+void timer_window_set_click_config_provider(ClickConfigProvider provider);
+
 // Pushes the timer window onto the window stack.
 
 void timer_window_push(Window* window);
-
-// Returns access to the action bar that is part of the timer window.
-
-ActionBarLayer* timer_window_get_action_bar();
 
 // Sets the icon for the given button on the action bar to the bitmap provided.
 
