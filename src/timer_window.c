@@ -6,9 +6,15 @@
 
 #include <pebble_os.h>
 
+// TBD: Consider this an "action window" and pass in the debug name - JRS 9/24
+
 // Define the debug name of this window.
 
 #define WINDOW_DEBUG_NAME "timer"
+
+// Define the various user interface elements comprising this window.
+
+static ActionBarLayer action_bar;
 
 // Public functions -----------------------------------------------------------
 
@@ -18,4 +24,10 @@ void timer_window_init(Window* window) {
 
 void timer_window_push(Window* window) {
   window_stack_push(window, true);
+}
+
+// TBD: Consider removing this or making it not act on a "singleton"- JRS 9/24
+
+ActionBarLayer* timer_window_get_action_bar() {
+  return &action_bar;
 }

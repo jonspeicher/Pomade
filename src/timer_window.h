@@ -16,3 +16,7 @@ void timer_window_init(Window* window);
 // Pushes the timer window onto the window stack.
 
 void timer_window_push(Window* window);
+
+// Returns access to the action bar that is part of the timer window.
+
+ActionBarLayer* timer_window_get_action_bar();

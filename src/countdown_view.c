@@ -8,6 +8,8 @@
 #include <pebble_app.h>
 #include <pebble_fonts.h>
 
+#include "timer_window.h" // TBD: I don't like this - JRS 9/24
+
 // Define the length in characters of the countdown string, including the NULL.
 
 #define COUNTDOWN_STRING_LENGTH 6
@@ -23,7 +25,6 @@ static char countdown_string[COUNTDOWN_STRING_LENGTH] = "";
 // Define the various user interface elements comprising this view.
 
 static TextLayer countdown_text_layer;
-static ActionBarLayer action_bar;
 
 // Define a structure to hold the window's bitmaps in a convenient aggregate.
 
@@ -57,35 +58,39 @@ void countdown_view_set_time_remaining_sec(unsigned int seconds) {
   unsigned int seconds_left = seconds % 60;
 
   snprintf(countdown_string, COUNTDOWN_STRING_LENGTH, COUNTDOWN_STRING_FORMAT,
-           minutes_left, seconds_left);
+    minutes_left, seconds_left);
   text_layer_set_text(&countdown_text_layer, countdown_string);
 }
 
 void countdown_view_show_start() {
-  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
+  ActionBarLayer* action_bar = timer_window_get_action_bar();
+  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
 }
 
 void countdown_view_show_restart() {
-  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.restart.bmp);
+  ActionBarLayer* action_bar = timer_window_get_action_bar();
+  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.restart.bmp);
 }
 
 void countdown_view_show_abort() {
-  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.abort.bmp);
+  ActionBarLayer* action_bar = timer_window_get_action_bar();
+  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.abort.bmp);
 }
 
 // Private functions ----------------------------------------------------------
 
 void load_and_add_view(Window* window, ClickConfigProvider provider) {
   GRect window_frame, text_layer_frame;
+  ActionBarLayer* action_bar = timer_window_get_action_bar();
 
   heap_bitmap_init(&icons.start, RESOURCE_ID_ICON_START);
   heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
   heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
 
-  action_bar_layer_init(&action_bar);
-  action_bar_layer_set_icon(&action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
-  action_bar_layer_add_to_window(&action_bar, window);
-  action_bar_layer_set_click_config_provider(&action_bar, provider);
+  action_bar_layer_init(action_bar);
+  action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, &icons.start.bmp);
+  action_bar_layer_add_to_window(action_bar, window);
+  action_bar_layer_set_click_config_provider(action_bar, provider);
 
   window_frame = layer_get_frame(&window->layer);
   text_layer_frame = GRect(0, 20, window_frame.size.w - ACTION_BAR_WIDTH, 55);
@@ -97,8 +102,9 @@ void load_and_add_view(Window* window, ClickConfigProvider provider) {
 }
 
 void remove_and_unload_view(Window* window) {
+  ActionBarLayer* action_bar = timer_window_get_action_bar();
+  action_bar_layer_remove_from_window(action_bar);
   layer_remove_from_parent(&countdown_text_layer.layer);
-  action_bar_layer_remove_from_window(&action_bar);
 
   heap_bitmap_deinit(&icons.start);
   heap_bitmap_deinit(&icons.restart);
