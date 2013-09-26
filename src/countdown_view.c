@@ -46,13 +46,16 @@ static void remove_and_unload_view(Window* window);
 
 // Public functions -----------------------------------------------------------
 
-void countdown_view_init(Window* window, ClickConfigProvider provider) {
-  previous_unload_handler = window->window_handlers.unload;
-  window_set_window_handlers(window, (WindowHandlers) {
+// TBD: Some of the ActionWindow parameters, especially in the headers, could
+// and should be called action_window for clarity - JRS 9/25
+
+void countdown_view_init(ActionWindow* window, ClickConfigProvider provider) {
+  previous_unload_handler = window->window.window_handlers.unload;
+  window_set_window_handlers(&window->window, (WindowHandlers) {
     .unload = remove_and_unload_view
   });
   action_window_set_click_config_provider(provider);
-  load_and_add_view(window, action_window_get_width(window));
+  load_and_add_view(&window->window, action_window_get_width(window));
   countdown_view_show_start();
 }
 

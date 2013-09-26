@@ -7,12 +7,13 @@
 #pragma once
 
 #include <pebble_os.h>
+#include "action_window.h"
 
 // Creates the countdown view and adds it to the window specified. The click
 // config provider parameter sets the click config provider for the view, which
 // will be invoked whenever the view needs to update the click configuration.
 
-void countdown_view_init(Window* window, ClickConfigProvider provider);
+void countdown_view_init(ActionWindow* window, ClickConfigProvider provider);
 
 // Sets the time remaining to be displayed on the countdown view. If the time
 // remaining will not fit on the view's display, it will be truncated. A call

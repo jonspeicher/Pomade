@@ -6,6 +6,7 @@
 
 #include <pebble_os.h>
 
+#include "action_window.h"
 #include "cookies.h"
 #include "countdown_controller.h"
 #include "countdown_view.h"
@@ -44,7 +45,7 @@ static void show_configured_countdown_aborted_view();
 
 // Public functions -----------------------------------------------------------
 
-void countdown_controller_init(AppContextRef ctx, Window* window) {
+void countdown_controller_init(AppContextRef ctx, ActionWindow* window) {
   app_ctx = ctx;
   countdown_view_init(window, click_config_provider);
 }

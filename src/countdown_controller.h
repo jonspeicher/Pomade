@@ -7,6 +7,8 @@
 #pragma once
 
 #include <pebble_os.h>
+
+#include "action_window.h"
 #include "interval.h"
 
 // Defines the signature of a countdown event handler.
@@ -27,7 +29,7 @@ typedef struct {
 
 // Initializes the countdown controller.
 
-void countdown_controller_init(AppContextRef ctx, Window* window);
+void countdown_controller_init(AppContextRef ctx, ActionWindow* window);
 
 // De-initializes the countdown controller.
 

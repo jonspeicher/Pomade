@@ -8,6 +8,9 @@
 // window via a specific method that puts them below the action bar - JRS 9/24
 
 #include <pebble_os.h>
+#include "action_window.h"
+
+// TBD: Move this in to struct next - JRS 9/25
 
 // Define the various user interface elements comprising this window.
 
@@ -19,11 +22,11 @@ static void window_unload(Window* window);
 
 // Public functions -----------------------------------------------------------
 
-void action_window_init(Window* window, char* debug_name) {
-  window_init(window, debug_name);
+void action_window_init(ActionWindow* window, char* debug_name) {
+  window_init(&window->window, debug_name);
   action_bar_layer_init(&action_bar);
-  action_bar_layer_add_to_window(&action_bar, window);
-  window_set_window_handlers(window, (WindowHandlers) {
+  action_bar_layer_add_to_window(&action_bar, &window->window);
+  window_set_window_handlers(&window->window, (WindowHandlers) {
     .unload = window_unload
   });
 }
@@ -38,8 +41,8 @@ void action_window_set_click_config_provider(ClickConfigProvider provider) {
   action_bar_layer_set_click_config_provider(&action_bar, provider);
 }
 
-unsigned int action_window_get_width(Window* window) {
-  Layer* layer = window_get_root_layer(window);
+unsigned int action_window_get_width(ActionWindow* window) {
+  Layer* layer = window_get_root_layer(&window->window);
   GRect frame = layer_get_frame(layer);
   return frame.size.w - ACTION_BAR_WIDTH;
 }
@@ -57,5 +60,7 @@ void action_window_clear_action_bar_icons() {
 // Private functions ----------------------------------------------------------
 
 void window_unload(Window* window) {
+  // TBD: This works for now but breaks when action_bar isn't global and is
+  // instead a part of the ActionWindow struct, I believe - JRS 9/25
   action_bar_layer_remove_from_window(&action_bar);
 }

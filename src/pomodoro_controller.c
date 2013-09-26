@@ -16,7 +16,7 @@
 
 // Define the window that will be given to the controllers for view setup.
 
-static Window action_window;
+static ActionWindow main_window;
 
 // Define a variable to track progress through the pomodoro technique.
 
@@ -39,17 +39,17 @@ void pomodoro_controller_init(AppContextRef ctx) {
 
   pomodoro_init(&pomodoro);
 
-  action_window_init(&action_window, "timer_window");
+  action_window_init(&main_window, "main_window");
 
-  segment_view_init(&action_window, action_window_get_width(&action_window));
+  segment_view_init(&main_window.window, action_window_get_width(&main_window));
   segment_view_set_num_pomodoro_indicators(POMODORO_COUNT_FOR_LONG_BREAK);
   segment_view_show_segment_type(pomodoro.this_segment->type);
 
-  countdown_controller_init(ctx, &action_window);
+  countdown_controller_init(ctx, &main_window);
   countdown_controller_set_countdown_handlers(handlers);
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
 
-  window_stack_push(&action_window, true);
+  window_stack_push((Window*) &main_window, true);
 }
 
 void pomodoro_controller_deinit(AppContextRef ctx) {
