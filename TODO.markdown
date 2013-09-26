@@ -11,6 +11,7 @@
       countdown hasn't elapsed
 * The code isn't bulletproof
     * Null pointers aren't checked
+    * Lots of pointer parameters to functions ought to be const
 * There are some leaky abstractions
     * The segment view knows that the window it's added to has an action bar
     * The pomodoro controller initializes the segment view and the countdown
