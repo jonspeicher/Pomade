@@ -49,7 +49,7 @@ void pomodoro_controller_init(AppContextRef ctx) {
   countdown_controller_set_countdown_handlers(handlers);
   countdown_controller_set_interval(&pomodoro.this_segment->interval);
 
-  action_window_push(&action_window);
+  window_stack_push(&action_window, true);
 }
 
 void pomodoro_controller_deinit(AppContextRef ctx) {

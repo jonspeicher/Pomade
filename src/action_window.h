@@ -18,10 +18,6 @@ void action_window_init(Window* window, char* debug_name);
 
 void action_window_set_click_config_provider(ClickConfigProvider provider);
 
-// Pushes the window onto the window stack.
-
-void action_window_push(Window* window);
-
 // Returns the usable width of the action window's root layer.
 
 unsigned int action_window_get_width(Window* window);

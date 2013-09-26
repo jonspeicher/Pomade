@@ -38,10 +38,6 @@ void action_window_set_click_config_provider(ClickConfigProvider provider) {
   action_bar_layer_set_click_config_provider(&action_bar, provider);
 }
 
-void action_window_push(Window* window) {
-  window_stack_push(window, true);
-}
-
 unsigned int action_window_get_width(Window* window) {
   Layer* layer = window_get_root_layer(window);
   GRect frame = layer_get_frame(layer);
