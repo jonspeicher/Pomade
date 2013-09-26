@@ -22,6 +22,10 @@ void action_window_set_click_config_provider(ClickConfigProvider provider);
 
 void action_window_push(Window* window);
 
+// Returns the usable width of the action window's root layer.
+
+unsigned int action_window_get_width(Window* window);
+
 // Sets the icon for the given button on the action bar to the bitmap provided.
 
 void action_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon);

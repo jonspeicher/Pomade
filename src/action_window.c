@@ -42,6 +42,12 @@ void action_window_push(Window* window) {
   window_stack_push(window, true);
 }
 
+unsigned int action_window_get_width(Window* window) {
+  Layer* layer = window_get_root_layer(window);
+  GRect frame = layer_get_frame(layer);
+  return frame.size.w - ACTION_BAR_WIDTH;
+}
+
 void action_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon) {
   action_bar_layer_set_icon(&action_bar, button_id, icon);
 }

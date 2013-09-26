@@ -28,14 +28,14 @@ static WindowHandler previous_unload_handler;
 
 // Private functions.
 
-static void load_and_add_view(Window* window);
+static void load_and_add_view(Window* window, unsigned int width);
 static void remove_and_unload_view(Window* window);
 
 // Public functions -----------------------------------------------------------
 
-void segment_view_init(Window* window) {
+void segment_view_init(Window* window, unsigned int width) {
   current_segment_type = POMODORO_SEGMENT_TYPE_POMODORO;
-  load_and_add_view(window);
+  load_and_add_view(window, width);
   previous_unload_handler = window->window_handlers.unload;
   window_set_window_handlers(window, (WindowHandlers) {
     .unload = remove_and_unload_view
@@ -59,9 +59,7 @@ void segment_view_show_segment_type(PomodoroSegmentType type) {
 
 // Private functions ----------------------------------------------------------
 
-void load_and_add_view(Window* window) {
-  GRect window_frame = layer_get_frame(&window->layer);
-  unsigned int width = window_frame.size.w - ACTION_BAR_WIDTH;
+void load_and_add_view(Window* window, unsigned int width) {
   GRect view_frame = GRect(0, 90, width, 40);
 
   progress_layer_init(&pomodoro_layer, view_frame);

@@ -9,9 +9,10 @@
 #include <pebble_os.h>
 #include "pomodoro.h"    // TBD: I'm not sure I like this - JRS 8/30
 
-// Creates the segment view and adds it to the window specified.
+// Creates the segment view with the specified width and adds it to the window
+// specified.
 
-void segment_view_init(Window* window);
+void segment_view_init(Window* window, unsigned int width);
 
 // Sets the number of pomodoro indicators that will appear on the view.
 

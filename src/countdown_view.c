@@ -41,7 +41,7 @@ static WindowHandler previous_unload_handler;
 
 // Private functions.
 
-static void load_and_add_view(Window* window);
+static void load_and_add_view(Window* window, unsigned int width);
 static void remove_and_unload_view(Window* window);
 
 // Public functions -----------------------------------------------------------
@@ -52,7 +52,7 @@ void countdown_view_init(Window* window, ClickConfigProvider provider) {
     .unload = remove_and_unload_view
   });
   action_window_set_click_config_provider(provider);
-  load_and_add_view(window);
+  load_and_add_view(window, action_window_get_width(window));
   countdown_view_show_start();
 }
 
@@ -79,16 +79,12 @@ void countdown_view_show_abort() {
 
 // Private functions ----------------------------------------------------------
 
-void load_and_add_view(Window* window) {
-  GRect window_frame, text_layer_frame;
-
+void load_and_add_view(Window* window, unsigned int width) {
   heap_bitmap_init(&icons.start, RESOURCE_ID_ICON_START);
   heap_bitmap_init(&icons.restart, RESOURCE_ID_ICON_RESTART);
   heap_bitmap_init(&icons.abort, RESOURCE_ID_ICON_ABORT);
 
-  window_frame = layer_get_frame(&window->layer);
-  // TBD: Make this a timer window define? - JRS 9/24
-  text_layer_frame = GRect(0, 20, window_frame.size.w - ACTION_BAR_WIDTH, 55);
+  GRect text_layer_frame = GRect(0, 20, width, 55);
   text_layer_init(&countdown_text_layer, text_layer_frame);
   text_layer_set_text_alignment(&countdown_text_layer, GTextAlignmentCenter);
   text_layer_set_font(&countdown_text_layer,
