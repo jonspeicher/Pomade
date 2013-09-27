@@ -14,6 +14,7 @@
 
 typedef struct {
   Window window;
+  ActionBarLayer action_bar;
 } ActionWindow;
 
 // Initializes the window. This will load any necessary resources and lay the
@@ -24,7 +25,8 @@ void action_window_init(ActionWindow* window, char* debug_name);
 // Sets the click config provider for the window, which will be invoked
 // whenever the window needs to update the click configuration.
 
-void action_window_set_click_config_provider(ClickConfigProvider provider);
+void action_window_set_click_config_provider(ActionWindow* window,
+  ClickConfigProvider provider);
 
 // Returns the usable width of the action window's root layer.
 
@@ -32,9 +34,9 @@ unsigned int action_window_get_width(ActionWindow* window);
 
 // Sets the icon for the given button on the action bar to the bitmap provided.
 
-void action_window_set_action_bar_icon(ButtonId button_id, GBitmap* icon);
+void action_window_set_icon(ActionWindow* window, ButtonId id, GBitmap* icon);
 
 // Clears all the icons from the action bar. This should be called prior to
 // deinitialization of the icons by their owner.
 
-void action_window_clear_action_bar_icons();
+void action_window_clear_icons(ActionWindow* window);
