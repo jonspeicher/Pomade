@@ -21,6 +21,15 @@ the Pebble iOS app. It should work with version 1.9.4 of the Pebble Android
 app, but I have not specifically tested it. Pomade was built with version 1.12
 of the Pebble SDK.
 
+Where to Download
+-----------------
+
+The Pomade project is hosted at GitHub, and the watchapp (.pbw) can be
+downloaded there. Go to http://github.com/jonspeicher/Pomade/releases and look
+for the "Latest release" badge near the top of the page. At the bottom of the
+notes for that release will be a green button marked "⇩ Pomade.pbw". Click this
+to download the watchapp.
+
 Installation and Uninstallation
 -------------------------------
 
